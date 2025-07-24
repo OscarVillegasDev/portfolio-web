@@ -11,6 +11,12 @@
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/driver.js@latest/dist/driver.css"/>
 </head>
 <body>
+    <header class="top-bar">
+        <div class="top-bar-content">
+            <button id="theme-toggle" class="theme-toggle-button" aria-label="Toggle dark/light theme">
+                <i class="fas fa-sun"></i> </button>
+        </div>
+    </header>
     <div class="page-wrapper">
         <div class="postman-container">
             <div class="request-bar">
@@ -86,6 +92,7 @@
         </div>
     </footer>
     <script src="driver.js"></script>
+    <script src="changeTheme.js"></script>
     <script type="module" src="main.js"></script>
 </body>
 </html>
