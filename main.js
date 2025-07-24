@@ -417,9 +417,11 @@ jsonDisplay.innerHTML = `<span class="comment">${getTranslation('initial_display
 statusCodeSpan.textContent = getTranslation('status_ready');
 statusCodeSpan.style.color = '#CCCCCC'; // Default gray color for "Ready"
 
+// Initial UI update for translations
+updateUI();
+
 // Adjunta los listeners a los elementos DOM estáticos de la interfaz.
 sendButton.addEventListener('click', sendApiRequest);
-console.log('main.js: sendButton click listener attached.');
 tabButtons.forEach(tab => {
     tab.addEventListener('click', handleTabClick);
 });
