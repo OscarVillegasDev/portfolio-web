@@ -30,7 +30,7 @@ const FIELDS_TO_COPY_AND_STYLE = [
     "details[0].personalInfo.fullName",
     "details[0].personalInfo.email",
     "details[0].personalInfo.phone",
-    "details[0].personalInfo.linkedin",
+    "details[0].personalInfo.linkedIn",
 ];
 
 /**
