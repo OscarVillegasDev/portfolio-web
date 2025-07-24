@@ -19,7 +19,7 @@ export const PORTFOLIO_DATA = {
                     "city": "Pachuca"
                 },
                 "linkedIn": "https://www.linkedin.com/in/dev-oscar-villegas/",
-                "cvPdf": "./VillegasOscar-en-cv25.pdf"
+                "cvPdf": "./VillegasOscar-es-cv25.pdf"
             },
             "summary": "Desarrollador de APIs adaptable con sólida experiencia en la metodología Agile Scrum, entregando soluciones API escalables y de alta calidad. Experto en el diseño e implementación de APIs eficientes utilizando diversos lenguajes de programación [ej., Node.js, Python, OpenAPI] y plataformas cloud [ej., Apigee, AWS, GCP]. Comprometido con impulsar la innovación y optimizar la eficiencia de los sistemas para alcanzar objetivos clave de negocio.",
             "experience": [
@@ -28,7 +28,7 @@ export const PORTFOLIO_DATA = {
                     "title": "Desarrollador Apigee",
                     "company": "Infosys/Loreal",
                     "location": "MX",
-                    "years": "Marzo 2024 - Present",
+                    "years": "Marzo 2024 - Presente",
                     "description": [
                         "Desarrollador Apigee experimentado y especializado en la gestión integral del ciclo de vida de APIs. Con destreza, diseñé, desplegué y administré proxies de API, implementando políticas de seguridad robustas (OAuth, API Key) y optimizando el tráfico dentro del ecosistema Apigee. Hábil en la resolución de problemas complejos de la plataforma, el análisis de logs de API y la implementación de manejo avanzado de errores para mejorar el rendimiento, la escalabilidad y la fiabilidad de las APIs. Colaboré eficazmente con equipos de desarrollo internacionales."
                     ]
