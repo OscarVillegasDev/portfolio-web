@@ -1,5 +1,5 @@
 
-import { getTranslation } from './i18n.js';
+import { getTranslation } from 'i18n.js';
 
 export function startTour() {
   const driver = window.driver.js.driver;

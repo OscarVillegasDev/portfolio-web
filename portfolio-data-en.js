@@ -1,5 +1,3 @@
-// portfolio-data.js
-
 /**
  * @constant {Object} PORTFOLIO_DATA - Contiene todos los datos del portafolio.
  * Exportado para ser importado y utilizado en main.js.
