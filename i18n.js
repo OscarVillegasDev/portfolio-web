@@ -162,7 +162,13 @@ async function init() {
             }
         });
     });
+    resolveI18nReady(); // Resolve the promise here
 }
 
 // --- INITIALIZE THE I18N SYSTEM ---
-init();
+let resolveI18nReady;
+export const i18nReadyPromise = new Promise(resolve => {
+    resolveI18nReady = resolve;
+});
+
+await init();

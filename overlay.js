@@ -7,24 +7,39 @@
  */
 
 import { startTour } from './driver.js';
-import { getTranslation } from './i18n.js';
+import { getTranslation, i18nReadyPromise } from './i18n.js';
 
-document.addEventListener('DOMContentLoaded', () => {
+console.log('overlay.js: Script started.');
+
+(async () => {
+    // console.log('overlay.js: Async IIFE started.');
     const loaderOverlay = document.getElementById('loader-overlay');
     const loadingText = document.querySelector('.loading-text');
 
+    // console.log('overlay.js: loaderOverlay element:', loaderOverlay);
+    // console.log('overlay.js: loadingText element:', loadingText);
+
+    // Wait for i18n to be ready before setting text and hiding overlay
+    // console.log('overlay.js: Waiting for i18nReadyPromise...');
+    await i18nReadyPromise;
+    // console.log('overlay.js: i18nReadyPromise resolved!');
+
     if (loadingText) {
         loadingText.textContent = getTranslation('loading_portfolio');
+        // console.log('overlay.js: loadingText updated.');
     }
 
-    window.onload = () => {
-        if (loaderOverlay) {
-            setTimeout(() => {
-                loaderOverlay.classList.add('hidden');
-                if (typeof startTour === 'function') {
-                    startTour();
-                }
-            }, 300); 
-        }
-    };
-});
+    if (loaderOverlay) {
+        // console.log('overlay.js: Attempting to hide loader overlay.');
+        setTimeout(() => {
+            loaderOverlay.classList.add('hidden');
+            //console.log('overlay.js: loaderOverlay hidden class added.');
+            if (typeof startTour === 'function') {
+                startTour();
+                //console.log('overlay.js: startTour called.');
+            }
+        }, 300); 
+    } else {
+        console.error('overlay.js: loaderOverlay element not found when trying to hide!');
+    }
+})();
