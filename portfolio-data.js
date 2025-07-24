@@ -20,7 +20,8 @@ export const PORTFOLIO_DATA = {
                     "state": "Hidalgo",
                     "city": "Pachuca"
                 },
-                "linkedIn": "https://www.linkedin.com/in/dev-oscar-villegas/"
+                "linkedIn": "https://www.linkedin.com/in/dev-oscar-villegas/",
+                "cvPdf": "./VillegasOscar-en-cv25.pdf"
             },
             "summary": "I have worked on projects using the agile Scrum methodology, which has allowed me to adapt quickly to changes and meet established deadlines. Additionally, I have skills in various programming languages and tools, which gives me a broader and more comprehensive approach to the projects that I’ve developed. I am committed to quality and efficiency in my work, always seeking innovative solutions to achieve team and company objectives.",
             "experience": [
