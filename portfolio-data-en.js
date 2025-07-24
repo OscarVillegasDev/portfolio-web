@@ -1,7 +1,6 @@
 /**
- * @constant {Object} PORTFOLIO_DATA - Contiene todos los datos del portafolio.
- * Exportado para ser importado y utilizado en main.js.
- * @comment Para desarrolladores: Edita este objeto directamente para modificar tus datos.
+ * @constant {Object} PORTFOLIO_DATA - Contains all the portfolio data.
+ * Exported to be imported and used in main.js.
  */
 export const PORTFOLIO_DATA = {
     "code": 200,

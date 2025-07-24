@@ -49,12 +49,12 @@ async function fetchPortfolioData(lang) {
 
 /**
  * Applies the loaded translations to all elements with a 'data-translate-key' attribute.
+ * @param {Object} translations - The translation data to apply.
  */
-function applyTranslations() {
+function applyTranslations(translations) {
     document.querySelectorAll('[data-translate-key]').forEach(element => {
         const key = element.getAttribute('data-translate-key');
         if (translations[key]) {
-            // Use textContent for security and performance
             element.textContent = translations[key];
         }
     });
@@ -63,8 +63,9 @@ function applyTranslations() {
 /**
  * Updates the UI to reflect the currently selected language.
  * @param {string} lang - The active language code.
+ * @param {NodeListOf<Element>} langButtons - The language buttons to update.
  */
-function updateLangUI(lang) {
+function updateLangUI(lang, langButtons) {
     langButtons.forEach(button => {
         if (button.dataset.lang === lang) {
             button.classList.add('active');
@@ -72,7 +73,7 @@ function updateLangUI(lang) {
             button.classList.remove('active');
         }
     });
-    document.documentElement.lang = lang; // Update the lang attribute on the <html> tag
+    document.documentElement.lang = lang;
 }
 
 /**
@@ -85,8 +86,9 @@ function updateLangUI(lang) {
  * Main function to change the language of the application.
  * Fetches new data, applies translations, and updates the UI.
  * @param {string} lang - The target language code.
+ * @param {NodeListOf<Element>} langButtons - The language buttons to update.
  */
-export async function setLanguage(lang) {
+export async function setLanguage(lang, langButtons) {
     if (lang === currentLang && Object.keys(translations).length > 0) {
         return; // Avoid unnecessary re-loading
     }
@@ -98,8 +100,8 @@ export async function setLanguage(lang) {
             fetchPortfolioData(lang)
         ]);
 
-        applyTranslations();
-        updateLangUI(lang);
+        applyTranslations(translations);
+        updateLangUI(lang, langButtons);
 
         // Dispatch a custom event to notify other modules that the language has changed
         document.dispatchEvent(new CustomEvent('languageChange', { detail: { lang, translations, portfolioData } }));
@@ -108,7 +110,7 @@ export async function setLanguage(lang) {
         console.error("Error setting language:", error);
         // Fallback to English in case of any error
         if (lang !== 'en') {
-            setLanguage('en');
+            setLanguage('en', langButtons);
         }
     }
 }
@@ -142,8 +144,8 @@ export function getPortfolioData() {
  * @returns {string} The detected language code.
  */
 function detectLanguage() {
-    const userLang = navigator.language || navigator.userLanguage; // 'en-US', 'es-ES', etc.
-    return userLang.startsWith('es') ? 'es' : 'en'; // Default to English
+    const userLang = navigator.language || navigator.userLanguage;
+    return userLang.startsWith('es') ? 'es' : 'en';
 }
 
 /**
@@ -151,18 +153,19 @@ function detectLanguage() {
  * Detects language, sets it, and adds event listeners for manual switching.
  */
 async function init() {
+    const langButtons = document.querySelectorAll('[data-lang]');
     const initialLang = detectLanguage();
-    await setLanguage(initialLang);
+    await setLanguage(initialLang, langButtons);
 
     langButtons.forEach(button => {
         button.addEventListener('click', (e) => {
             const newLang = e.target.dataset.lang;
             if (newLang) {
-                setLanguage(newLang);
+                setLanguage(newLang, langButtons);
             }
         });
     });
-    resolveI18nReady(); // Resolve the promise here
+    resolveI18nReady();
 }
 
 // --- INITIALIZE THE I18N SYSTEM ---

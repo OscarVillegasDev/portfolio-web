@@ -11,35 +11,34 @@ import { getTranslation, i18nReadyPromise } from './i18n.js';
 
 console.log('overlay.js: Script started.');
 
+const loaderOverlay = document.getElementById('loader-overlay');
+const loadingText = document.querySelector('.loading-text');
+
 (async () => {
-    // console.log('overlay.js: Async IIFE started.');
-    const loaderOverlay = document.getElementById('loader-overlay');
-    const loadingText = document.querySelector('.loading-text');
-
-    // console.log('overlay.js: loaderOverlay element:', loaderOverlay);
-    // console.log('overlay.js: loadingText element:', loadingText);
-
-    // Wait for i18n to be ready before setting text and hiding overlay
-    // console.log('overlay.js: Waiting for i18nReadyPromise...');
+    // Wait for i18n to be ready before setting text
     await i18nReadyPromise;
-    // console.log('overlay.js: i18nReadyPromise resolved!');
+    console.log('overlay.js: i18nReadyPromise resolved!');
 
     if (loadingText) {
         loadingText.textContent = getTranslation('loading_portfolio');
-        // console.log('overlay.js: loadingText updated.');
+        console.log('overlay.js: loadingText updated.');
     }
 
     if (loaderOverlay) {
-        // console.log('overlay.js: Attempting to hide loader overlay.');
+        // Ensure the text is updated before hiding, then hide with a slight delay
         setTimeout(() => {
-            loaderOverlay.classList.add('hidden');
-            //console.log('overlay.js: loaderOverlay hidden class added.');
-            if (typeof startTour === 'function') {
-                startTour();
-                //console.log('overlay.js: startTour called.');
-            }
-        }, 300); 
+            loaderOverlay.style.display = 'none'; // Directly hide the element
+            console.log('overlay.js: loaderOverlay hidden via display: none.');
+        }, 300); // Small delay to ensure text update is rendered
     } else {
         console.error('overlay.js: loaderOverlay element not found when trying to hide!');
+    }
+
+    // Start the tour as soon as i18n is ready and the overlay is about to disappear
+    if (typeof startTour === 'function') {
+        startTour();
+        console.log('overlay.js: startTour called after i18nReadyPromise and overlay hide.');
+    } else {
+        console.warn('overlay.js: startTour is not a function or not available.');
     }
 })();
