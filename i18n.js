@@ -37,12 +37,12 @@ async function fetchTranslations(lang) {
  */
 async function fetchPortfolioData(lang) {
     try {
-        const module = await import(`../portfolio-data-${lang}.js`);
+        const module = await import(`./portfolio-data-${lang}.js`);
         return module.PORTFOLIO_DATA;
     } catch (error) {
         console.error(`Failed to load portfolio data for ${lang}:`, error);
         // Fallback to English if the language-specific data fails
-        const module = await import('../portfolio-data-en.js');
+        const module = await import('./portfolio-data-en.js');
         return module.PORTFOLIO_DATA;
     }
 }
