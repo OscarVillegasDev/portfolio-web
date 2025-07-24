@@ -77,7 +77,7 @@ const tabContents = document.querySelectorAll('.tab-content');
  * @returns {*} El valor del atributo, o `undefined` si la ruta no es válida.
  */
 function getObjectValueByPath(obj, path) {
-    const parts = path.replace(/\\[(\\w+)\\]/g, '.$1').split('.');
+    const parts = path.replace(/\[(\\w+)\]/g, '.$1').split('.');
     let current = obj;
     for (const part of parts) {
         if (current === null || typeof current === 'undefined') {
@@ -412,31 +412,23 @@ function updateUI() {
     });
 }
 
-/**
- * Se ejecuta una vez que todo el DOM del documento ha sido cargado.
- * @comment Para desarrolladores:
- * Este es el punto de entrada de la aplicación. Aquí se configuran los estados iniciales
- * de la interfaz y se adjuntan los listeners a los elementos DOM estáticos.
- * El JSON del portafolio se carga directamente como una constante global (importada).
- */
-document.addEventListener('DOMContentLoaded', () => {
-    // Mensaje inicial en la pantalla, listo para la primera "petición" simulada.
-    jsonDisplay.innerHTML = `<span class="comment">${getTranslation('initial_display_comment')}</span>`;
-    statusCodeSpan.textContent = getTranslation('status_ready');
-    statusCodeSpan.style.color = '#CCCCCC'; // Default gray color for "Ready"
+// Mensaje inicial en la pantalla, listo para la primera "petición" simulada.
+jsonDisplay.innerHTML = `<span class="comment">${getTranslation('initial_display_comment')}</span>`;
+statusCodeSpan.textContent = getTranslation('status_ready');
+statusCodeSpan.style.color = '#CCCCCC'; // Default gray color for "Ready"
 
-    // Adjunta los listeners a los elementos DOM estáticos de la interfaz.
-    sendButton.addEventListener('click', sendApiRequest);
-    tabButtons.forEach(tab => {
-        tab.addEventListener('click', handleTabClick);
-    });
-
-    // Actualiza el año actual en el pie de página
-    const currentYearSpan = document.getElementById('current-year');
-    if (currentYearSpan) {
-        currentYearSpan.textContent = new Date().getFullYear();
-    }
+// Adjunta los listeners a los elementos DOM estáticos de la interfaz.
+sendButton.addEventListener('click', sendApiRequest);
+console.log('main.js: sendButton click listener attached.');
+tabButtons.forEach(tab => {
+    tab.addEventListener('click', handleTabClick);
 });
+
+// Actualiza el año actual en el pie de página
+const currentYearSpan = document.getElementById('current-year');
+if (currentYearSpan) {
+    currentYearSpan.textContent = new Date().getFullYear();
+}
 
 document.addEventListener('languageChange', (e) => {
     updateUI();
