@@ -1,4 +1,4 @@
-import { getTranslation, setLanguage, getPortfolioData } from 'i18n.js';
+import { getTranslation, setLanguage, getPortfolioData } from './i18n.js';
 
 /**
  * =========================================================
