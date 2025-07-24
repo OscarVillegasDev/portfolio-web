@@ -1,4 +1,4 @@
-// portfolio-data.js
+// portfolio-data-es.js
 
 /**
  * @constant {Object} PORTFOLIO_DATA - Contiene todos los datos del portafolio.
@@ -12,7 +12,7 @@ export const PORTFOLIO_DATA = {
         {
             "personalInfo": {
                 "fullName": "Oscar Eduardo Villegas Martinez",
-                "title": "API Developer",
+                "title": "Desarrollador de APIs",
                 "email": "oscarnickvillegas@gmail.com",
                 "phone": "+52 7712620593",
                 "location": {
@@ -23,36 +23,36 @@ export const PORTFOLIO_DATA = {
                 "linkedIn": "https://www.linkedin.com/in/dev-oscar-villegas/",
                 "cvPdf": "./VillegasOscar-en-cv25.pdf"
             },
-            "summary": "I have worked on projects using the agile Scrum methodology, which has allowed me to adapt quickly to changes and meet established deadlines. Additionally, I have skills in various programming languages and tools, which gives me a broader and more comprehensive approach to the projects that I’ve developed. I am committed to quality and efficiency in my work, always seeking innovative solutions to achieve team and company objectives.",
+            "summary": "Desarrollador de APIs adaptable con sólida experiencia en la metodología Agile Scrum, entregando soluciones API escalables y de alta calidad. Experto en el diseño e implementación de APIs eficientes utilizando diversos lenguajes de programación [ej., Node.js, Python, OpenAPI] y plataformas cloud [ej., Apigee, AWS, GCP]. Comprometido con impulsar la innovación y optimizar la eficiencia de los sistemas para alcanzar objetivos clave de negocio.",
             "experience": [
                 {
                     "id": 0,
-                    "title": "Apigee developer",
+                    "title": "Desarrollador Apigee",
                     "company": "Infosys/Loreal",
                     "location": "MX",
-                    "years": "March 2024 - Present",
+                    "years": "Marzo 2024 - Present",
                     "description": [
-                        "Experienced Apigee Developer with a strong understanding of API lifecycle management. Skilled in developing and deploying API proxies, implementing security policies (OAuth, API Key), managing API traffic, and monitoring performance within the Apigee ecosystem. Detail-oriented Apigee Developer adept at troubleshooting and resolving issues within the Apigee platform. Experienced in analyzing API logs, implementing error handling, and optimizing API performance for scalability and reliability. Work with international teams"
+                        "Desarrollador Apigee experimentado y especializado en la gestión integral del ciclo de vida de APIs. Con destreza, diseñé, desplegué y administré proxies de API, implementando políticas de seguridad robustas (OAuth, API Key) y optimizando el tráfico dentro del ecosistema Apigee. Hábil en la resolución de problemas complejos de la plataforma, el análisis de logs de API y la implementación de manejo avanzado de errores para mejorar el rendimiento, la escalabilidad y la fiabilidad de las APIs. Colaboré eficazmente con equipos de desarrollo internacionales."
                     ]
                 },
                 {
                     "id": 1,
-                    "title": "API developer",
+                    "title": "Desarrollador de API",
                     "company": "Grupo Salinas",
                     "location": "MX",
-                    "years": "April 2021 - March 2024",
+                    "years": "Abril 2021 - Marzo 2024",
                     "description": [
-                        "Experience in developing and designing APIs using the Contract First methodology. Proficient in performing stress testing and configuring Apigee Edge gateway, applying best practices in security and policy management. Competent in implementing security policies to protect APIs. Experienced in manual and automated testing to ensure software quality. Collaborative teamwork with other developers and infrastructure specialists to troubleshoot and optimize solution delivery. Ability to learn and adapt to new technologies and tools in an agile environment."
+                        "Desarrollador API con amplia experiencia en el diseño y desarrollo de APIs bajo la metodología Contract First. Configuré el gateway Apigee Edge, aplicando las mejores prácticas en gestión de seguridad y políticas, incluyendo la implementación de políticas de seguridad robustas. Lideré pruebas exhaustivas manuales y automatizadas para asegurar una calidad de software excepcional. Colaboré interfuncionalmente con equipos de desarrollo e infraestructura para agilizar la resolución de problemas y optimizar la entrega de soluciones en un entorno ágil."
                     ]
                 },
                 {
                     "id": 2,
-                    "title": "Fullstack developer",
+                    "title": "Desarrollador fullstack",
                     "company": "Softmotion",
                     "location": "MX",
-                    "years": "March 2018 - April 2021",
+                    "years": "Marzo 2018 - Abril 2021",
                     "description": [
-                        "Software developer with experience in various development areas, including Scrum Master, Frontend Developer, Backend Developer, Business Analyst, Database Administrator, Android and Desktop Application Developer. Proficient in consuming APIs and web platforms using PHP, ASP.NET, and JavaScript frameworks such as AngularJS, ReactJS, and VueJS. Experienced in implementing CRMs and cloud services such as GCP, AWS, and Azure. Competent in managing software projects using agile methodologies such as Scrum and Kanban. Skilled in teamwork, problem-solving, and quickly adapting to new environments and technologies. Continuous learner with a focus on improving the quality and efficiency of work."
+                        "Desarrollador de Software versátil con amplia experiencia abarcando el desarrollo full-stack, la administración de bases de datos y el análisis de negocio. Con dominio en la arquitectura e implementación de plataformas web robustas e integraciones de API utilizando PHP, ASP.NET y frameworks JavaScript modernos (AngularJS, ReactJS, VueJS). Desplegué con éxito soluciones CRM y aproveché importantes servicios cloud (GCP, AWS, Azure). Hábil en la gestión de proyectos con metodologías Ágiles (Scrum, Kanban) y en la colaboración interfuncional para entregar soluciones de software eficientes y de alta calidad. Comprometido con el aprendizaje continuo y la optimización técnica."
                     ]
                 }
             ],
@@ -80,8 +80,8 @@ export const PORTFOLIO_DATA = {
             "education": [
                 {
                     "id": 0,
-                    "institution": "Autonomous University Of the State of Hidalgo",
-                    "degree": "Bachelor's degree in Computer Science",
+                    "institution": "Universidad Autónoma del Estado de Hidalgo",
+                    "degree": "Licenciado en Ciencias Computacionales",
                     "years": "2016 - 2021"
                 }
             ],
@@ -94,14 +94,14 @@ export const PORTFOLIO_DATA = {
             ],
             "courses": [
                 {
-                    "API":[
+                    "gcp":[
                         "API Design and Fundamentals of Google Cloud's Apigee API Platform",
                         "API Security on Google Cloud's Apigee API Platform",
                         "API Development on Google Cloud's Apigee API"
                     ]
                 },
                 {
-                    "AWS":[
+                    "aws":[
                         "AWS Cloud Practitioner Essentials Day",
                         "Security Engineering on AWS Jam",
                         "MLOps Engineering on AWS",
@@ -110,7 +110,12 @@ export const PORTFOLIO_DATA = {
                     ]
                 },
                 {
-                    "softwareDeveloperPlatziCourses":[
+                    "platziCourses":[
+                        "Curso de Docker: Fundamentos",
+                        "Curso de React.js",
+                        "Curso de Django",
+                        "Curso de Django Rest Framework",
+                        "Curso de Vite.js"
                     ]
                 },
                 "Google Cloud Platform Courses",

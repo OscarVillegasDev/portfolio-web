@@ -1,15 +1,19 @@
-const driver = window.driver.js.driver;
 
+import { getTranslation } from './i18n.js';
 
-const driverObj = driver({
-  showProgress: true,
-  allowClose: false,
-  steps: [
-    { popover: { title: 'Portfolio Tour', description: 'This interface simulates an API request to fetch portfolio data.' } },
-    { element: '#send-button', popover: { title: 'Interact', description: 'Click this button to fetch the portfolio data.', side: "bottom", align: 'start' }},
-    { element: '.response-section', popover: { title: 'Response', description: 'After clicking the send button, the portfolio data will be displayed in json format.', side: "top", align: 'start' }},
-    { popover: { title: 'Thats it!', description: "<img src='./bobGif.gif' style='height: 202.5px; width: 270px;' /><span style='font-size: 15px; display: block; margin-top: 10px; text-align: center;'>Some data can be copied by clicking. Welcome to my portfolio!</span>" } }
-  ]
-});
+export function startTour() {
+  const driver = window.driver.js.driver;
 
-driverObj.drive();
+  const driverObj = driver({
+    showProgress: true,
+    allowClose: false,
+    steps: [
+      { popover: { title: getTranslation('tour_step1_title'), description: getTranslation('tour_step1_desc') } },
+      { element: '#send-button', popover: { title: getTranslation('tour_step2_title'), description: getTranslation('tour_step2_desc'), side: "bottom", align: 'start' }},
+      { element: '.response-section', popover: { title: getTranslation('tour_step3_title'), description: getTranslation('tour_step3_desc'), side: "top", align: 'start' }},
+      { popover: { title: getTranslation('tour_step4_title'), description: `<img src='./bobGif.gif' style='height: 202.5px; width: 270px;' /><span style='font-size: 15px; display: block; margin-top: 10px; text-align: center;'>${getTranslation('tour_step4_desc')}</span>` } }
+    ]
+  });
+
+  driverObj.drive();
+}
