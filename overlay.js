@@ -1,5 +1,3 @@
-// loading.js
-
 /**
  * @file Maneja la pantalla de carga inicial del portafolio.
  * @comment Para desarrolladores:
@@ -8,8 +6,8 @@
  * de la página (HTML, CSS, otros scripts como main.js, driver.js) hayan terminado de cargar.
  */
 
-import { startTour } from './driver.js';
-import { getTranslation } from './i18n.js';
+import { startTour } from 'driver.js';
+import { getTranslation } from 'i18n.js';
 
 document.addEventListener('DOMContentLoaded', () => {
     const loaderOverlay = document.getElementById('loader-overlay');
