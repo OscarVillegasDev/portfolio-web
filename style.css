@@ -1,11 +1,118 @@
+:root {
+    --bg-primary: #1E1E1E; /* Fondo muy oscuro del body */
+    --bg-secondary: #2D2D2D; /* Fondo del contenedor principal */
+    --bg-tertiary: #3C3C3C; /* Fondo de la barra de request */
+    --bg-response: #252526; /* Fondo del área de pre */
+    --text-primary: #C5C5C5; /* Texto general claro */
+    --text-secondary: #888; /* Texto gris de mensajes */
+    --text-comment: #6A9955; /* Verde de comentarios */
+    --text-key: #9CDCFE; /* Azul claro de claves */
+    --text-string: #CE9178; /* Naranja rojizo de strings */
+    --text-number: #B5CEA8; /* Verde de números */
+    --text-boolean-null: #569CD6; /* Azul de booleanos/null */
+    --border-color: #4D4D4D; /* Color de borde */
+    --accent-color: #007ACC; /* Color de acento (azul de Send) */
+    --accent-hover-color: #0066B3; /* Color de acento al hover */
+    --pdf-link-color: #8be9fd; /* Color de enlace PDF */
+    --pdf-link-hover-color: #6272a4; /* Color de enlace PDF al hover */
+}
+
+html.light-mode {
+    --bg-primary: #F0F0F0;
+    --bg-secondary: #FFFFFF;
+    --bg-tertiary: #E0E0E0;
+    --bg-response: #F8F8F8;
+    --text-primary: #333333;
+    --text-secondary: #666;
+    --text-comment: #008000; /* Darker green */
+    --text-key: #0000FF; /* Blue */
+    --text-string: #A31515; /* Red */
+    --text-number: #098677; /* Teal */
+    --text-boolean-null: #800080; /* Purple */
+    --border-color: #CCCCCC;
+    --accent-color: #007ACC;
+    --accent-hover-color: #0056b3;
+    --pdf-link-color: #0000EE;
+    --pdf-link-hover-color: #551A8B;
+}
+
+.top-bar {
+    background-color: var(--bg-tertiary); /* Fondo similar a la request-bar */
+    padding: 10px 20px;
+    border-bottom: 1px solid var(--border-color);
+    flex-shrink: 0; /* No se comprime */
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2); /* Sombra sutil */
+    display: flex;
+    justify-content: flex-end; /* Alinea los elementos a la derecha */
+    align-items: center;
+    gap: 15px; /* Espacio entre los elementos */
+}
+
+.top-bar-content {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+}
+
+.language-switcher select {
+    background-color: var(--bg-secondary);
+    color: var(--text-primary);
+    border: 1px solid var(--border-color);
+    padding: 6px 10px;
+    border-radius: 4px;
+    font-family: 'Fira Code', monospace;
+    font-size: 0.85em;
+    cursor: pointer;
+    outline: none;
+    transition: background-color 0.3s ease, color 0.3s ease, border-color 0.3s ease;
+}
+
+.language-switcher select:hover {
+    border-color: var(--accent-color);
+}
+
+.theme-toggle-button {
+    background-color: var(--bg-secondary);
+    color: var(--text-primary);
+    border: 1px solid var(--border-color);
+    padding: 8px 12px;
+    border-radius: 50%; /* Circular */
+    cursor: pointer;
+    font-size: 1.1em;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    transition: background-color 0.3s ease, color 0.3s ease, border-color 0.3s ease, transform 0.2s ease;
+    outline: none;
+}
+
+.theme-toggle-button:hover {
+    background-color: var(--accent-hover-color);
+    color: white;
+    border-color: var(--accent-color);
+    transform: rotate(15deg); /* Efecto giratorio para el icono */
+}
+
+/* Iconos de sol y luna para el tema */
+html.light-mode .theme-toggle-button .fa-sun {
+    display: none; /* Oculta el sol en modo claro */
+}
+
+html:not(.light-mode) .theme-toggle-button .fa-moon {
+    display: none; /* Oculta la luna en modo oscuro (por defecto) */
+}
+
+
+
+
 /* Estilos Globales y Base */
 html, body { /* Asegura que html y body ocupen toda la altura de la viewport */
     height: 100%;
     margin: 0;
     padding: 0;
     font-family: 'Fira Code', monospace;
-    background-color: #1E1E1E; /* Fondo muy oscuro, similar al de Postman/VS Code */
-    color: #C5C5C5; /* Color de texto general */
+    background-color: var(--bg-primary); /* Fondo muy oscuro, similar al de Postman/VS Code */
+    color: var(--text-primary); /* Color de texto general */
 }
 
 body {
@@ -32,7 +139,7 @@ body {
 .postman-container {
     width: 90%;
     max-width: 1200px;
-    background-color: #2D2D2D; /* Contenedor principal, oscuro */
+    background-color: var(--bg-secondary);
     border-radius: 8px;
     box-shadow: 0 8px 16px rgba(0, 0, 0, 0.4);
     display: flex; /* Para organizar la barra de petición, tabs y respuesta en columna */
@@ -45,14 +152,14 @@ body {
     flex-wrap: wrap; /* Permitir que los elementos salten de línea si no caben */
     align-items: center;
     padding: 10px 15px;
-    background-color: #3C3C3C;
-    border-bottom: 1px solid #4D4D4D;
+    background-color: var(--bg-tertiary);
+    border-bottom-color: var(--border-color);
     gap: 10px; /* Espacio entre los elementos */
 }
 
 .method-select {
-    background-color: #4A4A4A;
-    color: #9CDCFE;
+    background-color: var(--bg-secondary);
+    color: var(--text-key); /* Mantener el color de la clave para GET */
     border: none;
     padding: 8px 12px;
     border-radius: 4px;
@@ -66,9 +173,9 @@ body {
     flex-grow: 1; /* Ocupa el espacio restante */
     flex-basis: auto; /* Permite que el input se adapte */
     min-width: 150px; /* Un mínimo para el input en pantallas pequeñas */
-    background-color: #323232;
-    color: #D4D4D4;
-    border: 1px solid #4D4D4D;
+    background-color: var(--bg-primary); /* Un poco más oscuro que el secundario */
+    color: var(--text-primary);
+    border-color: var(--border-color);
     padding: 8px 12px;
     border-radius: 4px;
     font-family: 'Fira Code', monospace;
@@ -77,7 +184,7 @@ body {
 }
 
 .send-button {
-    background-color: #007ACC;
+    background-color: var(--accent-color);
     color: white;
     border: none;
     padding: 8px 20px;
@@ -90,7 +197,7 @@ body {
 }
 
 .send-button:hover {
-    background-color: #0066B3;
+    background-color: var(--accent-hover-color);
 }
 
 /* Spinner para el botón Send */
@@ -102,8 +209,8 @@ body {
 .tabs {
     display: flex;
     flex-wrap: wrap; /* Permitir que las pestañas salten de línea */
-    background-color: #2D2D2D;
-    border-bottom: 1px solid #4D4D4D;
+    background-color: var(--bg-secondary);
+    border-bottom-color: var(--border-color);
     padding: 0 15px;
     justify-content: flex-start; /* Alinea las pestañas al inicio */
     gap: 5px; /* Pequeño espacio entre pestañas */
@@ -112,7 +219,7 @@ body {
 
 .tab {
     padding: 10px 15px;
-    color: #9CDCFE;
+    color: var(--text-key);
     cursor: pointer;
     border-bottom: 2px solid transparent;
     transition: border-bottom 0.2s ease, color 0.2s ease;
@@ -122,21 +229,21 @@ body {
 }
 
 .tab.active {
-    color: #F8F8F2;
-    border-bottom: 2px solid #007ACC;
+    color: var(--text-primary);
+    border-bottom-color: var(--accent-color);
 }
 
 
 .tab-content {
     padding: 20px 15px;
-    background-color: #2D2D2D;
+    background-color: var(--bg-secondary);
     min-height: 50px; /* Para que no se colapse */
     box-sizing: border-box; /* Incluye padding en el tamaño total */
     flex-grow: 1; /* Permite que el contenido activo ocupe el espacio */
 }
 
 .no-body-message {
-    color: #888; /* Gris para mensajes */
+    color: var(--text-secondary);
     text-align: center;
     font-style: italic;
     font-size: 0.9em;
@@ -144,8 +251,8 @@ body {
 
 /* --- Sección de Respuesta --- */
 .response-section {
-    background-color: #1E1E1E; /* Fondo más oscuro para la sección de respuesta */
-    border-top: 1px solid #4D4D4D;
+    background-color: var(--bg-primary);
+    border-top-color: var(--border-color);
     padding: 15px;
     flex-grow: 1; /* Permite que la sección de respuesta ocupe el espacio */
     display: flex; /* Para organizar el header y body de la respuesta */
@@ -163,16 +270,17 @@ body {
 .response-title {
     font-size: 1.1em;
     font-weight: bold;
-    color: #F8F8F2; /* Blanco para el título "Response" */
+    color: var(--text-primary);
 }
 
 .response-details span {
     margin-left: 15px;
     font-size: 0.85em;
+    color: var(--text-secondary);
 }
 
 .status-code {
-    color: #CCCCCC; /* Default gris, se volverá verde en OK */
+   color: var(--text-primary); /* Default gris, se volverá verde en OK */
     font-weight: bold;
 }
 
@@ -187,7 +295,7 @@ body {
 }
 
 .response-body pre {
-    background-color: #252526; /* Fondo del JSON, un poco más claro que el contenedor principal */
+    background-color: var(--bg-response); /* Fondo del JSON, un poco más claro que el contenedor principal */
     padding: 15px;
     border-radius: 6px;
     white-space: pre-wrap; /* Mantiene el formato pero permite el wrap de líneas largas */
@@ -198,27 +306,27 @@ body {
 
 /* --- Colores de Resaltado de Sintaxis JSON --- */
 .key {
-    color: #9CDCFE; /* Azul claro para las claves */
+    color: var(--text-key); /* Azul claro para las claves */
 }
 
 .string {
-    color: #CE9178; /* Naranja rojizo para las cadenas (valores string por defecto) */
+    color: var(--text-string); /* Naranja rojizo para las cadenas (valores string por defecto) */
 }
 
 .number {
-    color: #B5CEA8; /* Verde para números */
+    color: var(--text-number); /* Verde para números */
 }
 
 .boolean {
-    color: #569CD6; /* Azul oscuro para booleanos */
+    color: var(--text-boolean-null); /* Azul oscuro para booleanos */
 }
 
 .null {
-    color: #569CD6; /* Opcional: el mismo azul que booleanos, o #C5C5C5 */
+    color: var(--text-boolean-null); /* Opcional: el mismo azul que booleanos, o #C5C5C5 */
 }
 
 .comment { /* Para el texto "// Fetching data..." */
-    color: #6A9955; /* Un verde de comentario de código */
+    color: var(--text-comment); /* Un verde de comentario de código */
     font-style: italic;
 }
 
@@ -227,7 +335,7 @@ body {
     cursor: pointer;
     margin-right: 5px;
     user-select: none;
-    color: #888;
+    color: var(--text-secondary);
     font-weight: bold;
     display: inline-block;
     width: 1em;
@@ -243,31 +351,31 @@ body {
 }
 
 .json-bracket {
-    color: #C5C5C5; /* Gris claro, como el texto general */
+    color: var(--text-primary); /* Gris claro, como el texto general */
 }
 
 /* --- Estilos para Campos Copiables y Estilizados --- */
 .string .json-copyable-field {
-    color: #CE9178; /* Naranja rojizo */
+    color: var(--text-string); /* Naranja rojizo */
     text-decoration: underline dotted; /* Subrayado punteado */
     cursor: pointer; /* Cursor de puntero */
 }
 
 .string .json-copyable-field:hover {
-    color: #FF9966; /* Naranja más claro al pasar el ratón */
+    color: var(--accent-hover-color); /* Naranja más claro al pasar el ratón */
     text-decoration: underline; /* Subrayado sólido */
 }
 
 /* --- Estilos específicos para el Enlace PDF --- */
 /* Esta clase se aplica al <a> tag del PDF. */
 .string a.json-pdf-link {
-    color: #8be9fd; /* Azul más cercano a un enlace web tradicional */
+    color: var(--pdf-link-color); /* Azul más cercano a un enlace web tradicional */
     text-decoration: underline; /* Subrayado sólido */
     cursor: pointer; /* Cursor de puntero */
 }
 
 .string a.json-pdf-link:hover {
-    color: #6272a4; /* Un azul ligeramente más oscuro o diferente al pasar el ratón */
+    color: var(--pdf-link-hover-color); /* Un azul ligeramente más oscuro o diferente al pasar el ratón */
     text-decoration: none; /* Opcional: quitar subrayado al pasar el ratón */
 }
 
@@ -299,7 +407,7 @@ body {
 .show-more-button {
     background-color: transparent;
     border: none;
-    color: #9CDCFE;
+    color: var(--text-key);
     cursor: pointer;
     font-family: 'Fira Code', monospace;
     font-size: 1em;
@@ -315,7 +423,7 @@ body {
 }
 
 .show-more-button:hover {
-    color: #8be9fd;
+    color: var(--accent-hover-color);
     transform: translateY(-1px);
 }
 
@@ -325,7 +433,7 @@ body {
 
 /* Para el texto de comentario como "... and X more items" */
 .json-comment-line {
-    color: #6A9955;
+    color: var(--text-comment);
     font-style: italic;
     font-size: 0.85em;
     display: block;
@@ -334,8 +442,9 @@ body {
 
 /* --- Estilos para el Pie de Página (Footer) --- */
 .main-footer {
-    background-color: #1a1a1a;
-    color: #888;
+    background-color: var(--bg-tertiary); /* Footer con el mismo color de la request bar */
+    color: var(--text-secondary);
+    border-top: 1px solid var(--border-color);
     font-family: 'Fira Code', monospace;
     padding: 30px 20px;
     text-align: center;
@@ -355,7 +464,7 @@ body {
 }
 
 .footer-links a {
-    color: #9CDCFE;
+    color: var(--text-key);
     font-size: 1.8em;
     margin: 0 10px;
     transition: color 0.2s ease, transform 0.2s ease;
@@ -363,7 +472,7 @@ body {
 }
 
 .footer-links a:hover {
-    color: #8be9fd;
+    color: var(--accent-hover-color);
     transform: translateY(-3px);
 }
 
@@ -371,6 +480,7 @@ body {
     font-size: 0.85em;
     line-height: 1.6;
     margin-bottom: 10px;
+    color: var(--text-secondary);
 }
 
 .footer-text span {
@@ -381,7 +491,7 @@ body {
 .footer-note {
     font-size: 0.75em;
     font-style: italic;
-    color: #6A9955;
+    color: var(--text-comment);
 }
 
 /* --- Media Queries para Responsividad --- */
