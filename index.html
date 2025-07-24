@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>PortfolioAPI - OEVM</title>
     <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="language-switcher.css">
     <link href="https://fonts.googleapis.com/css2?family=Fira+Code:wght@400;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
     <script src="https://cdn.jsdelivr.net/npm/driver.js@latest/dist/driver.js.iife.js"></script>
@@ -14,57 +15,64 @@
 <body>
     <div id="loader-overlay" class="loader-overlay">
         <div class="spinner"></div>
-        <p class="loading-text">Cargando portafolio...</p>
+        <p class="loading-text" data-translate-key="loading_portfolio">Cargando portafolio...</p>
     </div>
-    <script src="overlay.js"></script>
+    <script type="module" src="overlay.js"></script>
     <header class="top-bar">
         <div class="top-bar-content">
+            <div class="language-switcher">
+                <button class="lang-button" data-lang="en">EN</button>
+                <span class="lang-separator">/</span>
+                <button class="lang-button" data-lang="es">ES</button>
+            </div>
             <button id="theme-toggle" class="theme-toggle-button" aria-label="Toggle dark/light theme">
-                <i class="fas fa-sun"></i> </button>
+                <i class="fas fa-sun"></i>
+                <i class="fas fa-moon"></i>
+            </button>
         </div>
     </header>
     <div class="page-wrapper">
         <div class="postman-container">
             <div class="request-bar">
-                <select class="method-select" aria-label="HTTP Method">
+                <select id="method-select" class="method-select" aria-label="HTTP Method">
                     <option>GET</option>
                     <option disabled>POST</option>
                     <option disabled>PUT</option>
                     <option disabled>DELETE</option>
                 </select>
                 <input type="text" id="api-url" class="url-input" value="http://airashistudio.dev/api/personal-data/v1/portfolio-web" readonly aria-label="API URL">
-                <button id="send-button" class="send-button">Send</button>
+                <button id="send-button" class="send-button" data-translate-key="send_button">Send</button>
             </div>
 
             <div class="tabs" role="tablist">
-                <div class="tab active" data-tab="params" role="tab" aria-selected="true" aria-controls="params-content">Params</div>
-                <div class="tab" data-tab="headers" role="tab" aria-selected="false" aria-controls="headers-content">Headers (0)</div>
-                <div class="tab" data-tab="body" role="tab" aria-selected="false" aria-controls="body-content">Body</div>
-                <div class="tab" data-tab="scripts" role="tab" aria-selected="false" aria-controls="scripts-content">Scripts</div>
-                <div class="tab" data-tab="settings" role="tab" aria-selected="false" aria-controls="settings-content">Settings</div>
+                <div class="tab active" data-tab="params" role="tab" aria-selected="true" aria-controls="params-content" data-translate-key="request_tab_params">Params</div>
+                <div class="tab" data-tab="headers" role="tab" aria-selected="false" aria-controls="headers-content" data-translate-key="request_tab_headers">Headers (0)</div>
+                <div class="tab" data-tab="body" role="tab" aria-selected="false" aria-controls="body-content" data-translate-key="request_tab_body">Body</div>
+                <div class="tab" data-tab="scripts" role="tab" aria-selected="false" aria-controls="scripts-content" data-translate-key="request_tab_scripts">Scripts</div>
+                <div class="tab" data-tab="settings" role="tab" aria-selected="false" aria-controls="settings-content" data-translate-key="request_tab_settings">Settings</div>
             </div>
 
             <div class="tab-content-container">
                 <div class="tab-content active" id="params-content" role="tabpanel" aria-labelledby="params">
-                    <p class="no-body-message">This request does not have a param.</p>
+                    <p class="no-body-message" data-translate-key="params_content">This request does not have a param.</p>
                 </div>
                 <div class="tab-content" id="headers-content" role="tabpanel" aria-labelledby="headers" style="display: none;">
-                    <p class="no-body-message">No headers configured for this request.</p>
+                    <p class="no-body-message" data-translate-key="headers_content">No headers configured for this request.</p>
                 </div>
                 <div class="tab-content" id="body-content" role="tabpanel" aria-labelledby="body" style="display: none;">
-                    <p class="no-body-message">No request body for GET method.</p>
+                    <p class="no-body-message" data-translate-key="body_content_get">No request body for GET method.</p>
                 </div>
                 <div class="tab-content" id="scripts-content" role="tabpanel" aria-labelledby="scripts" style="display: none;">
-                    <p class="no-body-message">No pre-request or test scripts.</p>
+                    <p class="no-body-message" data-translate-key="scripts_content">No pre-request or test scripts.</p>
                 </div>
                 <div class="tab-content" id="settings-content" role="tabpanel" aria-labelledby="settings" style="display: none;">
-                    <p class="no-body-message">Default settings applied.</p>
+                    <p class="no-body-message" data-translate-key="settings_content">Default settings applied.</p>
                 </div>
             </div>
 
             <div class="response-section">
                 <div class="response-header">
-                    <span class="response-title">Response</span>
+                    <span class="response-title" data-translate-key="response_title">Response</span>
                     <div class="response-details">
                         <span id="status-code" class="status-code"></span>
                         <span id="response-time" class="response-time"></span>
@@ -88,17 +96,18 @@
                 </a>
             </div>
             <p class="footer-text">
-                Hecho con ❤️ y código por Oscar Villegas.
+                <span data-translate-key="footer_made_by">Hecho con ❤️ y código por Oscar Villegas.</span>
                 <br>
-                <span>&copy; <span id="current-year"></span> Todos los derechos reservados.</span>
+                <span>&copy; <span id="current-year"></span> <span data-translate-key="footer_reserved">Todos los derechos reservados.</span></span>
             </p>
-            <p class="footer-note">
+            <p class="footer-note" data-translate-key="footer_note">
                 Esta es una demostración interactiva. El contenido presentado simula una respuesta API.
             </p>
         </div>
     </footer>
-    <script src="driver.js"></script>
+    <script type="module" src="driver.js"></script>
     <script src="changeTheme.js"></script>
+    <script type="module" src="i18n.js"></script>
     <script type="module" src="main.js"></script>
 </body>
 </html>

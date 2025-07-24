@@ -1,6 +1,4 @@
-// --- IMPORTACIÓN DE DATOS DEL PORTAFOLIO ---
-// Este archivo contiene todos los datos de tu portafolio en formato de objeto JavaScript.
-import { PORTFOLIO_DATA } from './portfolio-data.js';
+import { getTranslation, setLanguage, getPortfolioData } from './i18n.js';
 
 /**
  * =========================================================
@@ -47,12 +45,12 @@ const RESUME_PDF_PATH = "details[0].personalInfo.cvPdf";
 const SHOW_MORE_CONFIG = {
     "details[0].experience": { limit: 3 },
     "details[0].projects": { limit: 2 },
-    "details[0].skills": { limit: 10 },
+    "details[0].skills": { limit: 3 },
     "details[0].certifications": { limit: 2 },
-    "details[0].courses": { limit: 2 },
-    "details[0].courses[0].API": { limit: 2 },
-    "details[0].courses[1].AWS": { limit: 2 },
-    "details[0].courses[2].softwareDeveloperPlatziCourses": { limit: 2 }
+    "details[0].courses": { limit: 3 },
+    "details[0].courses[0].gcp": { limit: 2 },
+    "details[0].courses[1].aws": { limit: 2 },
+    "details[0].courses[2].platziCourses": { limit: 2 }
 };
 
 /**
@@ -71,8 +69,6 @@ const copyMessageDiv = document.getElementById('copy-message');
 const tabButtons = document.querySelectorAll('.tab');
 const tabContents = document.querySelectorAll('.tab-content');
 
-const originalButtonText = sendButton.textContent; // Texto inicial del botón Send
-
 /**
  * Función auxiliar para obtener un valor de un objeto anidado usando una ruta de string.
  * @comment Para desarrolladores: Accede a propiedades profundas en objetos/arrays de forma segura.
@@ -81,7 +77,7 @@ const originalButtonText = sendButton.textContent; // Texto inicial del botón S
  * @returns {*} El valor del atributo, o `undefined` si la ruta no es válida.
  */
 function getObjectValueByPath(obj, path) {
-    const parts = path.replace(/\[(\w+)\]/g, '.$1').split('.');
+    const parts = path.replace(/\\[(\\w+)\\]/g, '.$1').split('.');
     let current = obj;
     for (const part of parts) {
         if (current === null || typeof current === 'undefined') {
@@ -161,7 +157,7 @@ function highlightAndFoldJson(data, fieldsToStyle, currentPath = '', indentLevel
 
             // Muestra el comentario "... and X more items" solo si no está expandido.
             if (!isExpanded) {
-                html += `${' '.repeat(buttonLineIndentSpaces)}<span class="json-comment-line" style="${inlineStyle}">... and ${remainingItems} more items</span>\n`;
+                html += `${' '.repeat(buttonLineIndentSpaces)}<span class="json-comment-line" style="${inlineStyle}">${getTranslation('show_more_items_comment', [remainingItems])}</span>\n`;
             }
 
             // Botón de expansión/colapso
@@ -278,7 +274,7 @@ function handleFoldToggle(event) {
  */
 function handleCopyToClipboard(text, element) {
     navigator.clipboard.writeText(text).then(() => {
-        copyMessageDiv.textContent = 'Text Copied!';
+        copyMessageDiv.textContent = getTranslation('copy_message_success');
         const rect = element.getBoundingClientRect();
         copyMessageDiv.style.top = `${rect.top - 30}px`;
         copyMessageDiv.style.left = `${rect.left + (rect.width / 2)}px`;
@@ -290,7 +286,7 @@ function handleCopyToClipboard(text, element) {
         }, 1500);
     }).catch(err => {
         console.error("DEVELOPER ALERT: Error copying text. Clipboard API might be restricted or failed.", err);
-        alert('Could not copy text. Please try manually.');
+        alert(getTranslation('copy_message_error'));
     });
 }
 
@@ -348,10 +344,10 @@ function handleShowMoreClick(event) {
  */
 function sendApiRequest() {
     sendButton.disabled = true; // Deshabilita el botón mientras se "envía"
-    sendButton.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Sending...'; // Muestra spinner
+    sendButton.innerHTML = `<i class="fas fa-spinner fa-spin"></i> ${getTranslation('sending_button')}`;
 
-    statusCodeSpan.textContent = 'Sending...';
-    jsonDisplay.innerHTML = '<span class="comment">// Fetching portfolio data...</span>'; // Mensaje de carga
+    statusCodeSpan.textContent = getTranslation('status_sending');
+    jsonDisplay.innerHTML = `<span class="comment">${getTranslation('fetching_data_comment')}</span>`;
     statusCodeSpan.style.color = '#CCCCCC';
     responseTimeSpan.textContent = '';
     responseSizeSpan.textContent = '';
@@ -360,14 +356,15 @@ function sendApiRequest() {
         renderPortfolioJson(); // Renderiza el JSON con los datos precargados
 
         // Actualiza los detalles de la "respuesta API" simulada
-        statusCodeSpan.textContent = 'Status: 200 OK';
+        statusCodeSpan.textContent = getTranslation('status_ok');
         statusCodeSpan.style.color = '#B5CEA8'; // Verde para OK
-        responseTimeSpan.textContent = 'Time: ' + (Math.floor(Math.random() * (250 - 50 + 1)) + 50) + ' ms';
-        const jsonString = JSON.stringify(PORTFOLIO_DATA); // Calcula el tamaño de los datos
-        responseSizeSpan.textContent = 'Size: ' + (new TextEncoder().encode(jsonString).length / 1024).toFixed(2) + ' KB';
+        const time = Math.floor(Math.random() * (250 - 50 + 1)) + 50;
+        responseTimeSpan.textContent = `${getTranslation('response_time_label')}: ${time} ms`;
+        const jsonString = JSON.stringify(getPortfolioData());
+        responseSizeSpan.textContent = `${getTranslation('response_size_label')}: ${(new TextEncoder().encode(jsonString).length / 1024).toFixed(2)} KB`;
 
         sendButton.disabled = false; // Habilita el botón de nuevo
-        sendButton.textContent = originalButtonText; // Restaura el texto original
+        sendButton.textContent = getTranslation('send_button');
 
     }, 1500); // Retraso de 1.5 segundos para simular la petición
 }
@@ -382,8 +379,10 @@ function sendApiRequest() {
  * la sección del JSON y vuelve a vincular los eventos a los nuevos elementos HTML.
  */
 function renderPortfolioJson() {
+    const portfolioData = getPortfolioData();
+    if (!portfolioData) return;
     // Genera el HTML del JSON a partir de los datos y las configuraciones
-    jsonDisplay.innerHTML = highlightAndFoldJson(PORTFOLIO_DATA, FIELDS_TO_COPY_AND_STYLE, '', 0);
+    jsonDisplay.innerHTML = highlightAndFoldJson(portfolioData, FIELDS_TO_COPY_AND_STYLE, '', 0);
 
     // Adjunta listeners a los elementos interactivos recién creados.
     // Es crucial adjuntar estos listeners DESPUÉS de que el HTML se ha insertado en el DOM,
@@ -400,6 +399,19 @@ function renderPortfolioJson() {
     });
 }
 
+function updateUI() {
+    const lang = getPortfolioData().lang;
+    document.documentElement.lang = lang;
+    const elements = document.querySelectorAll('[data-translate-key]');
+    elements.forEach(element => {
+        const key = element.dataset.translateKey;
+        const translation = getTranslation(key);
+        if (translation) {
+            element.innerText = translation;
+        }
+    });
+}
+
 /**
  * Se ejecuta una vez que todo el DOM del documento ha sido cargado.
  * @comment Para desarrolladores:
@@ -409,8 +421,8 @@ function renderPortfolioJson() {
  */
 document.addEventListener('DOMContentLoaded', () => {
     // Mensaje inicial en la pantalla, listo para la primera "petición" simulada.
-    jsonDisplay.innerHTML = '<span class="comment">// Press "Send" to retrieve portfolio data...</span>';
-    statusCodeSpan.textContent = 'Ready';
+    jsonDisplay.innerHTML = `<span class="comment">${getTranslation('initial_display_comment')}</span>`;
+    statusCodeSpan.textContent = getTranslation('status_ready');
     statusCodeSpan.style.color = '#CCCCCC'; // Default gray color for "Ready"
 
     // Adjunta los listeners a los elementos DOM estáticos de la interfaz.
@@ -424,4 +436,10 @@ document.addEventListener('DOMContentLoaded', () => {
     if (currentYearSpan) {
         currentYearSpan.textContent = new Date().getFullYear();
     }
+});
+
+document.addEventListener('languageChange', (e) => {
+    updateUI();
+    jsonDisplay.innerHTML = `<span class="comment">${getTranslation('press_send_comment')}</span>`;
+    statusCodeSpan.textContent = getTranslation('status_ready');
 });

@@ -8,8 +8,16 @@
  * de la página (HTML, CSS, otros scripts como main.js, driver.js) hayan terminado de cargar.
  */
 
+import { startTour } from './driver.js';
+import { getTranslation } from './i18n.js';
+
 document.addEventListener('DOMContentLoaded', () => {
     const loaderOverlay = document.getElementById('loader-overlay');
+    const loadingText = document.querySelector('.loading-text');
+
+    if (loadingText) {
+        loadingText.textContent = getTranslation('loading_portfolio');
+    }
 
     window.onload = () => {
         if (loaderOverlay) {
