@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Oscar Villegas - Portafolio API</title>
+    <link rel="stylesheet" href="style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Fira+Code:wght@400;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+</head>
+<body>
+    <div class="postman-container">
+        <div class="request-bar">
+            <select class="method-select" aria-label="HTTP Method">
+                <option>GET</option>
+                <option disabled>POST</option>
+                <option disabled>PUT</option>
+                <option disabled>DELETE</option>
+            </select>
+            <input type="text" id="api-url" class="url-input" value="http://localhost/api/dev-oscarvillegas/v1/portfolio-web" readonly aria-label="API URL">
+            <button id="send-button" class="send-button">Send</button>
+        </div>
+
+        <div class="tabs" role="tablist">
+            <div class="tab active" data-tab="params" role="tab" aria-selected="true" aria-controls="params-content">Params</div>
+            <div class="tab" data-tab="headers" role="tab" aria-selected="false" aria-controls="headers-content">Headers (0)</div>
+            <div class="tab" data-tab="body" role="tab" aria-selected="false" aria-controls="body-content">Body</div>
+            <div class="tab" data-tab="scripts" role="tab" aria-selected="false" aria-controls="scripts-content">Scripts</div>
+            <div class="tab" data-tab="settings" role="tab" aria-selected="false" aria-controls="settings-content">Settings</div>
+        </div>
+
+        <div class="tab-content-container">
+            <div class="tab-content active" id="params-content" role="tabpanel" aria-labelledby="params">
+                <p class="no-body-message">This request does not have a param.</p>
+            </div>
+            <div class="tab-content" id="headers-content" role="tabpanel" aria-labelledby="headers" style="display: none;">
+                <p class="no-body-message">No headers configured for this request.</p>
+            </div>
+            <div class="tab-content" id="body-content" role="tabpanel" aria-labelledby="body" style="display: none;">
+                <p class="no-body-message">No request body for GET method.</p>
+            </div>
+            <div class="tab-content" id="scripts-content" role="tabpanel" aria-labelledby="scripts" style="display: none;">
+                <p class="no-body-message">No pre-request or test scripts.</p>
+            </div>
+            <div class="tab-content" id="settings-content" role="tabpanel" aria-labelledby="settings" style="display: none;">
+                <p class="no-body-message">Default settings applied.</p>
+            </div>
+        </div>
+
+        <div class="response-section">
+            <div class="response-header">
+                <span class="response-title">Response</span>
+                <div class="response-details">
+                    <span id="status-code" class="status-code"></span>
+                    <span id="response-time" class="response-time"></span>
+                    <span id="response-size" class="response-size"></span>
+                </div>
+            </div>
+            <div class="response-body">
+                <pre id="json-display" aria-live="polite"></pre>
+            </div>
+        </div>
+    </div>
+
+    <div id="copy-message" class="copy-message" aria-live="assertive">Texto Copiado!</div>
+
+    <script src="main.js"></script>
+</body>
+</html>

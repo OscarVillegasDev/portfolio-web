@@ -1,0 +1,375 @@
+/* Estilos Globales y Base */
+body {
+    background-color: #1E1E1E; /* Fondo muy oscuro, similar al de Postman/VS Code */
+    color: #C5C5C5; /* Color de texto general */
+    font-family: 'Fira Code', monospace;
+    margin: 0;
+    padding: 20px;
+    display: flex;
+    justify-content: center;
+    align-items: flex-start; /* Alinea arriba en lugar de centro vertical */
+    min-height: 100vh;
+}
+
+/* Contenedor Principal de la Interfaz Postman */
+.postman-container {
+    width: 90%;
+    max-width: 1200px;
+    background-color: #2D2D2D; /* Contenedor principal, oscuro */
+    border-radius: 8px;
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.4);
+    overflow: hidden; /* Para que los bordes redondeados se apliquen bien */
+}
+
+/* --- Barra de Solicitud (Método, URL, Botón Enviar) --- */
+.request-bar {
+    display: flex;
+    flex-wrap: wrap; /* Permitir que los elementos salten de línea si no caben */
+    align-items: center;
+    padding: 10px 15px;
+    background-color: #3C3C3C;
+    border-bottom: 1px solid #4D4D4D;
+    gap: 10px; /* Espacio entre los elementos */
+}
+
+.method-select {
+    background-color: #4A4A4A;
+    color: #9CDCFE;
+    border: none;
+    padding: 8px 12px;
+    border-radius: 4px;
+    font-family: 'Fira Code', monospace;
+    font-weight: bold;
+    cursor: not-allowed; /* Siempre deshabilitado */
+    flex-shrink: 0; /* Evita que el select se encoja si no hay espacio */
+}
+
+.url-input {
+    flex-grow: 1; /* Ocupa el espacio restante */
+    flex-basis: auto; /* Permite que el input se adapte */
+    min-width: 150px; /* Un mínimo para el input en pantallas pequeñas */
+    background-color: #323232;
+    color: #D4D4D4;
+    border: 1px solid #4D4D4D;
+    padding: 8px 12px;
+    border-radius: 4px;
+    font-family: 'Fira Code', monospace;
+    font-size: 0.9em;
+    outline: none;
+}
+
+.send-button {
+    background-color: #007ACC;
+    color: white;
+    border: none;
+    padding: 8px 20px;
+    border-radius: 4px;
+    cursor: pointer;
+    font-family: 'Fira Code', monospace;
+    font-weight: bold;
+    transition: background-color 0.2s ease;
+    flex-shrink: 0; /* Evita que el botón se encoja */
+}
+
+.send-button:hover {
+    background-color: #0066B3;
+}
+
+/* Spinner para el botón Send */
+.send-button i {
+    margin-right: 5px;
+}
+
+/* --- Pestañas de Navegación --- */
+.tabs {
+    display: flex;
+    flex-wrap: wrap; /* Permitir que las pestañas salten de línea */
+    background-color: #2D2D2D;
+    border-bottom: 1px solid #4D4D4D;
+    padding: 0 15px;
+    justify-content: flex-start; /* Alinea las pestañas al inicio */
+    gap: 5px; /* Pequeño espacio entre pestañas */
+}
+
+.tab {
+    padding: 10px 15px;
+    color: #9CDCFE;
+    cursor: pointer;
+    border-bottom: 2px solid transparent;
+    transition: border-bottom 0.2s ease, color 0.2s ease;
+    font-size: 0.9em;
+    flex-shrink: 0; /* Evita que las pestañas se encojan */
+    white-space: nowrap; /* Evita que el texto de la pestaña se rompa */
+}
+
+.tab.active {
+    color: #F8F8F2;
+    border-bottom: 2px solid #007ACC;
+}
+
+
+.tab-content {
+    padding: 20px 15px;
+    background-color: #2D2D2D;
+    min-height: 50px; /* Para que no se colapse */
+    box-sizing: border-box; /* Incluye padding en el tamaño total */
+}
+
+.no-body-message {
+    color: #888; /* Gris para mensajes */
+    text-align: center;
+    font-style: italic;
+    font-size: 0.9em;
+}
+
+/* --- Sección de Respuesta --- */
+.response-section {
+    background-color: #1E1E1E; /* Fondo más oscuro para la sección de respuesta */
+    border-top: 1px solid #4D4D4D;
+    padding: 15px;
+}
+
+.response-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 10px;
+}
+
+.response-title {
+    font-size: 1.1em;
+    font-weight: bold;
+    color: #F8F8F2; /* Blanco para el título "Response" */
+}
+
+.response-details span {
+    margin-left: 15px;
+    font-size: 0.85em;
+}
+
+.status-code {
+    color: #CCCCCC; /* Default gris, se volverá verde en OK */
+    font-weight: bold;
+}
+
+.response-time, .response-size {
+    color: #999999; /* Gris más suave para detalles secundarios */
+}
+
+.response-body pre {
+    background-color: #252526; /* Fondo del JSON, un poco más claro que el contenedor principal */
+    padding: 15px;
+    border-radius: 6px;
+    white-space: pre-wrap; /* Mantiene el formato pero permite el wrap de líneas largas */
+    word-wrap: break-word; /* Rompe palabras largas si es necesario */
+}
+
+/* --- Colores de Resaltado de Sintaxis JSON --- */
+.key {
+    color: #9CDCFE; /* Azul claro para las claves */
+}
+
+.string {
+    color: #CE9178; /* Naranja rojizo para las cadenas (valores string por defecto) */
+}
+
+.number {
+    color: #B5CEA8; /* Verde para números */
+}
+
+.boolean {
+    color: #569CD6; /* Azul oscuro para booleanos */
+}
+
+.null {
+    color: #569CD6; /* Opcional: el mismo azul que booleanos, o #C5C5C5 */
+}
+
+.comment { /* Para el texto "// Fetching data..." */
+    color: #6A9955; /* Un verde de comentario de código */
+    font-style: italic;
+}
+
+/* --- Estilos para Plegado de JSON (toggles "▸" / "▾") --- */
+.json-foldable-toggle {
+    cursor: pointer;
+    margin-right: 5px;
+    user-select: none; /* Evitar que el texto se seleccione al hacer doble clic */
+    color: #888; /* Color sutil para el toggle */
+    font-weight: bold;
+    display: inline-block; /* Para asegurar que el margen funciona */
+    width: 1em; /* Asegurar un ancho fijo */
+    text-align: center;
+}
+
+.json-folded-content {
+    display: block; /* Por defecto visible */
+}
+
+.json-folded-content.hidden {
+    display: none; /* Oculta el contenido cuando está plegado */
+}
+
+.json-bracket {
+    color: #C5C5C5; /* Gris claro, como el texto general */
+}
+
+/* --- Estilos para Campos Copiables y Estilizados --- */
+.string .json-copyable-field {
+    color: #CE9178; /* Mismo naranja que las cadenas (color del texto) */
+    text-decoration: underline dotted; /* Subrayado punteado por defecto */
+    cursor: pointer; /* Cursor de puntero */
+}
+
+.string .json-copyable-field:hover {
+    color: #FF9966; /* Un naranja ligeramente más claro al pasar el ratón */
+    text-decoration: underline; /* Subrayado sólido al pasar el ratón */
+}
+
+/* --- Mensaje de Confirmación de Copia --- */
+.copy-message {
+    position: fixed;
+    background-color: #333;
+    color: white;
+    padding: 8px 15px;
+    border-radius: 5px;
+    z-index: 1000; /* Asegura que esté por encima de otros elementos */
+    opacity: 0; /* Por defecto oculto */
+    transition: opacity 0.3s ease-in-out, transform 0.3s ease-in-out; /* Animación de fade y movimiento */
+    pointer-events: none; /* Permite clics "a través" del mensaje cuando no está visible */
+    font-size: 0.9em;
+    text-align: center;
+    left: 50%; /* Inicialmente centrado */
+    top: 50%; /* Oculto en el centro, se moverá */
+    transform: translateX(-50%); /* Centrado horizontalmente */
+    white-space: nowrap; /* Evita que el texto se rompa en varias líneas */
+}
+
+.copy-message.show {
+    opacity: 1;
+    transform: translateX(-50%) translateY(-10px); /* Sube un poco al aparecer */
+}
+
+/* --- Estilos para "Ver Más..." (Botones [+] / [-] minimalistas) --- */
+.show-more-button {
+    /* Eliminamos background, border, width, height, border-radius */
+    background-color: transparent; /* Sin fondo */
+    border: none; /* Sin borde */
+    color: #CE9178; /* Color similar al de las claves, o puedes usar #888 para más sutil */
+    cursor: pointer;
+    font-family: 'Fira Code', monospace;
+    font-size: 1em; /* Tamaño normal, como el texto del código */
+    font-weight: bold; /* Para que el + y - resalten */
+    padding: 0 4px; /* Pequeño padding horizontal para que sea clicable */
+    display: inline-block; /* Para que no ocupe toda la línea */
+    line-height: 1; /* Asegura que el símbolo se alinee bien */
+    text-align: center;
+    transition: color 0.2s ease, transform 0.1s ease;
+    margin-top: 5px; /* Espacio encima del botón */
+    margin-bottom: 5px; /* Espacio debajo del botón */
+    /* margin-left se gestiona via inline style en JS para la indentación */
+    box-shadow: none; /* Sin sombra */
+}
+
+.show-more-button:hover {
+    color: #CE9178; /* Un azul más claro al pasar el ratón */
+    transform: translateY(-1px); /* Ligero efecto al pasar el ratón */
+}
+
+.show-more-button:active {
+    transform: translateY(0); /* Efecto de click */
+}
+
+/* Para el texto de comentario como "... and X more items" */
+.json-comment-line {
+    color: #6A9955; /* Verde de comentario */
+    font-style: italic;
+    font-size: 0.85em;
+    display: block; /* Para que ocupe su propia línea */
+    /* El margin-left se gestiona via inline style en JS para la indentación */
+    margin-bottom: 2px;
+}
+
+/* --- Media Queries para Responsividad --- */
+@media (max-width: 600px) { /* breakpoint para pantallas más pequeñas (teléfonos) */
+    body {
+        padding: 10px; /* Reduce el padding global en móviles */
+    }
+
+    .postman-container {
+        width: 100%; /* Ocupa todo el ancho disponible */
+        border-radius: 0; /* Sin bordes redondeados en los extremos */
+        box-shadow: none; /* Sin sombra para un look más simple en móvil */
+    }
+
+    /* Barra de Petición - Reordenar y apilar elementos */
+    .request-bar {
+        flex-direction: column; /* Apila los elementos verticalmente */
+        align-items: stretch; /* Estira los elementos para ocupar el ancho completo */
+        padding: 10px; /* Reduce el padding */
+    }
+
+    .method-select {
+        width: 100%; /* Ocupa todo el ancho */
+        margin-right: 0; /* Elimina margen derecho que podría quedar */
+        margin-bottom: 10px; /* Añade margen inferior para separarlo del input */
+    }
+
+    .url-input {
+        width: 100%; /* Ocupa todo el ancho */
+        margin-bottom: 10px; /* Añade margen inferior para separarlo del botón */
+    }
+
+    .send-button {
+        width: 100%; /* Ocupa todo el ancho */
+        margin-left: 0; /* Elimina margen izquierdo que podría quedar */
+    }
+
+    /* Pestañas - Mejorar el ajuste */
+    .tabs {
+        padding: 0 5px; /* Reduce el padding horizontal */
+        justify-content: space-around; /* Distribuye las pestañas uniformemente */
+        gap: 0; /* Elimina el gap entre pestañas para usar space-around */
+    }
+
+    .tab {
+        padding: 8px 10px; /* Reduce el padding de las pestañas */
+        font-size: 0.8em; /* Reduce el tamaño de fuente */
+        flex-grow: 1; /* Permite que las pestañas se estiren para ocupar espacio */
+        text-align: center; /* Centra el texto */
+    }
+
+    /* Ajustes generales de padding para contenido */
+    .tab-content, .response-section {
+        padding: 10px; /* Reduce el padding general */
+    }
+
+    .response-details {
+        flex-direction: column; /* Apila los detalles de respuesta */
+        align-items: flex-start; /* Alinea al inicio */
+        margin-top: 5px;
+    }
+
+    .response-details span {
+        margin-left: 0;
+        margin-bottom: 5px;
+    }
+
+    /* Para botones "Ver más..." en móvil */
+    .show-more-button {
+        /* Se mantiene el font-size y padding definidos arriba para el símbolo,
+           ya que la reducción de tamaño de fuente general ya lo afecta. */
+        margin-left: 10px !important; /* Asegura la alineación en móvil, sobreescribe inline */
+    }
+    .json-comment-line {
+        margin-left: 10px !important; /* Asegura la alineación en móvil, sobreescribe inline */
+    }
+}
+
+/* Para pantallas aún más pequeñas (ej. algunos iPhones SE, etc.) */
+@media (max-width: 400px) {
+    .tab {
+        font-size: 0.75em; /* Reducir aún más el tamaño de la fuente */
+        padding: 8px 5px; /* Reducir aún más el padding */
+    }
+}
