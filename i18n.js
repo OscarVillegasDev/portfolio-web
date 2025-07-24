@@ -100,7 +100,6 @@ export async function setLanguage(lang, langButtons) {
             fetchPortfolioData(lang)
         ]);
 
-        applyTranslations(translations);
         updateLangUI(lang, langButtons);
 
         // Dispatch a custom event to notify other modules that the language has changed
