@@ -99,11 +99,14 @@ export async function setLanguage(lang, langButtons) {
             fetchTranslations(lang),
             fetchPortfolioData(lang)
         ]);
+        // console.log(`i18n.js: Translations loaded for ${lang}:`, translations); // Removed diagnostic log
 
         updateLangUI(lang, langButtons);
 
         // Dispatch a custom event to notify other modules that the language has changed
         document.dispatchEvent(new CustomEvent('languageChange', { detail: { lang, translations, portfolioData } }));
+
+        resolveI18nReady(); // Resolve the promise here, after everything is loaded and applied
 
     } catch (error) {
         console.error("Error setting language:", error);
@@ -122,6 +125,7 @@ export async function setLanguage(lang, langButtons) {
  */
 export function getTranslation(key, args = []) {
     let translation = translations[key] || key;
+    // console.log(`getTranslation called for key: ${key}, returning: ${translation}`); // Removed diagnostic log
     if (args.length > 0) {
         args.forEach(arg => {
             translation = translation.replace('%s', arg);
@@ -164,7 +168,7 @@ async function init() {
             }
         });
     });
-    resolveI18nReady();
+    // resolveI18nReady() is now called inside setLanguage
 }
 
 // --- INITIALIZE THE I18N SYSTEM ---
