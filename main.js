@@ -1,4 +1,4 @@
-import { getTranslation, setLanguage, getPortfolioData } from './i18n.js';
+import { getTranslation, setLanguage, getPortfolioData, i18nReadyPromise } from './i18n.js';
 
 /**
  * =========================================================
@@ -344,11 +344,12 @@ function handleShowMoreClick(event) {
  */
 function sendApiRequest() {
     sendButton.disabled = true; // Deshabilita el botón mientras se "envía"
+    const originalSendButtonKey = sendButton.dataset.translateKey; // Store original key
+    sendButton.removeAttribute('data-translate-key'); // Temporarily remove key
     sendButton.innerHTML = `<i class="fas fa-spinner fa-spin"></i> ${getTranslation('sending_button')}`;
 
-    statusCodeSpan.textContent = getTranslation('status_sending');
-    jsonDisplay.innerHTML = `<span class="comment">${getTranslation('fetching_data_comment')}</span>`;
     statusCodeSpan.style.color = '#CCCCCC';
+    updateUI();
     responseTimeSpan.textContent = '';
     responseSizeSpan.textContent = '';
 
@@ -364,6 +365,7 @@ function sendApiRequest() {
         responseSizeSpan.textContent = `${getTranslation('response_size_label')}: ${(new TextEncoder().encode(jsonString).length / 1024).toFixed(2)} KB`;
 
         sendButton.disabled = false; // Habilita el botón de nuevo
+        sendButton.setAttribute('data-translate-key', originalSendButtonKey); // Restore original key
         sendButton.textContent = getTranslation('send_button');
 
     }, 1500); // Retraso de 1.5 segundos para simular la petición
@@ -412,28 +414,26 @@ function updateUI() {
     });
 }
 
-// Mensaje inicial en la pantalla, listo para la primera "petición" simulada.
-jsonDisplay.innerHTML = `<span class="comment">${getTranslation('initial_display_comment')}</span>`;
-statusCodeSpan.textContent = getTranslation('status_ready');
-statusCodeSpan.style.color = '#CCCCCC'; // Default gray color for "Ready"
+(async () => {
+    await i18nReadyPromise;
 
-// Initial UI update for translations
-updateUI();
+    // Initial UI update for translations
+    updateUI();
 
-// Adjunta los listeners a los elementos DOM estáticos de la interfaz.
-sendButton.addEventListener('click', sendApiRequest);
-tabButtons.forEach(tab => {
-    tab.addEventListener('click', handleTabClick);
-});
+    // Adjunta los listeners a los elementos DOM estáticos de la interfaz.
+    sendButton.addEventListener('click', sendApiRequest);
 
-// Actualiza el año actual en el pie de página
-const currentYearSpan = document.getElementById('current-year');
-if (currentYearSpan) {
-    currentYearSpan.textContent = new Date().getFullYear();
-}
+    tabButtons.forEach(tab => {
+        tab.addEventListener('click', handleTabClick);
+    });
+
+    // Actualiza el año actual en el pie de página
+    const currentYearSpan = document.getElementById('current-year');
+    if (currentYearSpan) {
+        currentYearSpan.textContent = new Date().getFullYear();
+    }
+})();
 
 document.addEventListener('languageChange', (e) => {
     updateUI();
-    jsonDisplay.innerHTML = `<span class="comment">${getTranslation('press_send_comment')}</span>`;
-    statusCodeSpan.textContent = getTranslation('status_ready');
 });
