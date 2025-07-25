@@ -1,14 +1,5 @@
 import { getTranslation, setLanguage, getPortfolioData, i18nReadyPromise } from './i18n.js';
 
-/**
- * =========================================================
- * Portafolio Interactivo de Oscar Villegas: Lógica Principal
- * =========================================================
- *
- * Este script gestiona la interfaz de usuario, la simulación de API,
- * el resaltado de JSON, el plegado de nodos, la copia de campos y
- * la paginación de arrays largos.
- */
 
 /**
  * @constant {string[]} FIELDS_TO_COPY_AND_STYLE - Rutas de los campos JSON (valores de tipo string)
@@ -44,7 +35,7 @@ const RESUME_PDF_PATH = "details[0].personalInfo.cvPdf";
  */
 const SHOW_MORE_CONFIG = {
     "details[0].experience": { limit: 3 },
-    "details[0].projects": { limit: 2 },
+    //"details[0].projects": { limit: 2 },
     "details[0].skills": { limit: 3 },
     "details[0].certifications": { limit: 2 },
     "details[0].courses": { limit: 3 },
@@ -69,24 +60,6 @@ const copyMessageDiv = document.getElementById('copy-message');
 const tabButtons = document.querySelectorAll('.tab');
 const tabContents = document.querySelectorAll('.tab-content');
 
-/**
- * Función auxiliar para obtener un valor de un objeto anidado usando una ruta de string.
- * @comment Para desarrolladores: Accede a propiedades profundas en objetos/arrays de forma segura.
- * @param {Object} obj - El objeto base.
- * @param {string} path - La ruta del atributo (ej. "key.nestedKey" o "array[index].key").
- * @returns {*} El valor del atributo, o `undefined` si la ruta no es válida.
- */
-function getObjectValueByPath(obj, path) {
-    const parts = path.replace(/\[(\\w+)\]/g, '.$1').split('.');
-    let current = obj;
-    for (const part of parts) {
-        if (current === null || typeof current === 'undefined') {
-            return undefined;
-        }
-        current = current[part];
-    }
-    return current;
-}
 
 /**
  * Resalta la sintaxis de un objeto/array JSON y construye el HTML interactivo.
@@ -114,16 +87,16 @@ function highlightAndFoldJson(data, fieldsToStyle, currentPath = '', indentLevel
         // Añade el toggle de plegado para el array, si aplica y tiene contenido.
         // `details` no tiene un toggle porque es el array principal y siempre está "abierto".
         if (currentPath !== 'details' && data.length > 0) {
-             html += `${indent}<span class="json-foldable-toggle">▾</span>`; 
+            html += `${indent}<span class="json-foldable-toggle">▾</span>`;
         }
-        
+
         html += `<span class="json-bracket">[</span>\n`;
         html += `<span class="json-folded-content">`; // Contenedor para el contenido plegable/expandible
 
         for (let i = 0; i < displayLimit; i++) {
             const item = data[i];
             const itemPath = `${currentPath}[${i}]`;
-            const nextIndentLevel = indentLevel + 1; 
+            const nextIndentLevel = indentLevel + 1;
 
             // Determina cómo renderizar el elemento del array (primitivo, objeto o array anidado)
             if (typeof item !== 'object' || item === null) { // Si el ítem es un valor primitivo (string, number, boolean, null)
@@ -152,7 +125,7 @@ function highlightAndFoldJson(data, fieldsToStyle, currentPath = '', indentLevel
         // Botón "Ver más/menos" e indicador de items restantes (si el array es paginado).
         if (config && data.length > config.limit) {
             const buttonText = isExpanded ? '[−]' : '[+]';
-            const buttonLineIndentSpaces = (indentLevel + 1) * 4; 
+            const buttonLineIndentSpaces = (indentLevel + 1) * 4;
             const inlineStyle = `margin-left: ${buttonLineIndentSpaces}px;`;
 
             // Muestra el comentario "... and X more items" solo si no está expandido.
@@ -165,7 +138,7 @@ function highlightAndFoldJson(data, fieldsToStyle, currentPath = '', indentLevel
             html += `${buttonText}`;
             html += `</button>\n`;
         }
-        
+
         html += `${indent}<span class="json-bracket">]</span>`;
 
     } else if (typeof data === 'object' && data !== null) {
@@ -178,15 +151,15 @@ function highlightAndFoldJson(data, fieldsToStyle, currentPath = '', indentLevel
             html += `${indent}<span class="json-foldable-toggle">▾</span>`;
         }
         html += `<span class="json-bracket">{</span>\n`;
-        
+
         if (hasContent) {
-            html += `<span class="json-folded-content">`; 
+            html += `<span class="json-folded-content">`;
         }
 
         keys.forEach((key, index) => {
             const value = data[key];
             const keyPath = currentPath ? `${currentPath}.${key}` : key;
-            
+
             // Renderiza la clave.
             html += `${' '.repeat((indentLevel + 1) * 4)}<span class="key">"${key}"</span>: `;
 
@@ -257,7 +230,7 @@ function highlightAndFoldJson(data, fieldsToStyle, currentPath = '', indentLevel
 function handleFoldToggle(event) {
     const target = event.target;
     if (target.classList.contains('json-foldable-toggle')) {
-        const parentBracketSpan = target.nextElementSibling; 
+        const parentBracketSpan = target.nextElementSibling;
         const foldableContent = parentBracketSpan.nextElementSibling;
 
         if (foldableContent && foldableContent.classList.contains('json-folded-content')) {
@@ -329,7 +302,7 @@ function handleTabClick(event) {
 function handleShowMoreClick(event) {
     const button = event.target;
     const path = button.dataset.path;
-    
+
     expandedSections[path] = !expandedSections[path]; // Alterna el estado de expansión
 
     renderPortfolioJson(); // Vuelve a renderizar para aplicar el cambio
