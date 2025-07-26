@@ -1,0 +1,358 @@
+---
+// src/components/EndpointView.astro
+import TabsNav from "./TabsNav.astro";
+import { getLangFromUrl, useTranslations } from "../i18n/utils";
+
+export interface Props {
+    endpointTitle: string;
+    dataToShow: any;
+    isHomePage?: boolean;
+}
+const { endpointTitle, dataToShow, isHomePage = false } = Astro.props;
+
+const lang = getLangFromUrl(Astro.url);
+const t = useTranslations(lang);
+
+const clientStrings = {
+    sending: t("sending_button"),
+    send: t("send_button"),
+    statusReady: t("status_ready"),
+    statusSending: t("status_sending"),
+    statusOk: t("status_ok"),
+    responseTime: t("response_time_label"),
+    responseSize: t("response_size_label"),
+    pressSend: t("press_send_comment"),
+    copySuccess: t("copy_message_success"),
+    moreItems: t("show_more_items_comment"),
+    // Traducciones para el tour
+    tourStep1Title: t("tour_step1_title"),
+    tourStep1Desc: t("tour_step1_desc"),
+    tourStep2Title: t("tour_step2_title"),
+    tourStep2Desc: t("tour_step2_desc"),
+    tourStep3Title: t("tour_step3_title"),
+    tourStep3Desc: t("tour_step3_desc"),
+    tourStep4Title: t("tour_step4_title"),
+    tourStep4Desc: t("tour_step4_desc"),
+};
+---
+
+<div class="postman-container">
+    <TabsNav />
+    <div class="request-bar">
+        <select class="method-select" aria-label="HTTP Method"
+            ><option>GET</option></select
+        >
+        <input
+            type="text"
+            class="url-input"
+            value={`http://airashistudio.dev/api/${endpointTitle.toLowerCase()}`}
+            readonly
+        />
+        <button id="send-button" class="send-button">{t("send_button")}</button>
+    </div>
+
+    <div class="tabs" role="tablist">
+        <div class="tab active">{t("request_tab_params")}</div>
+        <div class="tab">Headers (0)</div>
+        <div class="tab">Body</div>
+    </div>
+
+    <div class="tab-content-container">
+        <div class="tab-content active">
+            <p class="no-body-message">{t("params_content")}</p>
+        </div>
+    </div>
+
+    <div class="response-section">
+        <div class="response-header">
+            <span class="response-title">{t("response_title")}</span>
+            <div class="response-details">
+                <span id="status-code" class="status-code"
+                    >{t("status_ready")}</span
+                >
+                <span id="response-time" class="response-time"></span>
+                <span id="response-size" class="response-size"></span>
+            </div>
+        </div>
+        <div class="response-body">
+            <pre
+                id="json-display"
+                class="json-comment-line">{t('press_send_comment')}</pre>
+        </div>
+    </div>
+</div>
+
+<div id="copy-message" class="copy-message"></div>
+
+<script define:vars={{ dataToShow, clientStrings, isHomePage }}>
+    class EndpointViewer {
+        constructor(data, strings, isHomePage) {
+            this.data = data;
+            this.strings = strings;
+            this.isHomePage = isHomePage;
+
+            this.FIELDS_TO_COPY_AND_STYLE = [
+                "details.personalInfo.fullName",
+                "details.personalInfo.email",
+                "details.personalInfo.phone",
+                "details.personalInfo.linkedIn",
+            ];
+            this.RESUME_PDF_PATH = "details.personalInfo.cvPdf";
+            this.SHOW_MORE_CONFIG = {
+                experience: { limit: 2 },
+                skills: { limit: 3 },
+                certifications: { limit: 2 },
+                projects: { limit: 2 },
+            };
+            this.expandedSections = {};
+
+            this.sendButton = document.getElementById("send-button");
+            this.jsonDisplay = document.getElementById("json-display");
+            this.copyMessageDiv = document.getElementById("copy-message");
+            this.statusCodeSpan = document.getElementById("status-code");
+            this.responseTimeSpan = document.getElementById("response-time");
+            this.responseSizeSpan = document.getElementById("response-size");
+
+            this.init();
+        }
+
+        init() {
+            this.sendButton.addEventListener("click", () =>
+                this.sendApiRequest(),
+            );
+            if (this.isHomePage) {
+                this.startTour();
+            }
+        }
+
+        sendApiRequest() {
+            this.sendButton.disabled = true;
+            this.sendButton.innerHTML = `<i class="fas fa-spinner fa-spin"></i> ${this.strings.sending}`;
+            this.statusCodeSpan.textContent = this.strings.statusSending;
+            this.responseTimeSpan.textContent = "";
+            this.responseSizeSpan.textContent = "";
+            this.jsonDisplay.textContent = "";
+
+            setTimeout(() => {
+                this.renderPortfolioJson();
+                this.updateResponseDetails();
+                this.sendButton.disabled = false;
+                this.sendButton.textContent = this.strings.send;
+            }, 800);
+        }
+
+        updateResponseDetails() {
+            this.statusCodeSpan.textContent = this.strings.statusOk;
+            this.statusCodeSpan.style.color = "#B5CEA8";
+            const time = Math.floor(Math.random() * (250 - 50 + 1)) + 50;
+            const size = (
+                new TextEncoder().encode(JSON.stringify(this.data)).length /
+                1024
+            ).toFixed(2);
+            this.responseTimeSpan.textContent = `${this.strings.responseTime}: ${time} ms`;
+            this.responseSizeSpan.textContent = `${this.strings.responseSize}: ${size} KB`;
+        }
+
+        renderPortfolioJson() {
+            if (!this.data) return;
+            this.jsonDisplay.innerHTML = this.highlightAndFoldJson(
+                this.data,
+                this.FIELDS_TO_COPY_AND_STYLE,
+            );
+            this.jsonDisplay
+                .querySelectorAll(".json-foldable-toggle")
+                .forEach((t) =>
+                    t.addEventListener("click", (e) =>
+                        this.handleFoldToggle(e),
+                    ),
+                );
+            this.jsonDisplay
+                .querySelectorAll(".json-copyable-field")
+                .forEach((e) =>
+                    e.addEventListener("click", (ev) =>
+                        this.handleJsonContentClick(ev),
+                    ),
+                );
+            this.jsonDisplay
+                .querySelectorAll(".show-more-button")
+                .forEach((b) =>
+                    b.addEventListener("click", (e) =>
+                        this.handleShowMoreClick(e),
+                    ),
+                );
+        }
+
+        highlightAndFoldJson(
+            data,
+            fieldsToStyle,
+            currentPath = "",
+            indentLevel = 0,
+        ) {
+            const indent = " ".repeat(indentLevel * 4);
+
+            if (data === null) return `<span class="null">null</span>`;
+
+            // --- Lógica para Valores Primitivos (string, number, boolean) ---
+            if (typeof data !== "object") {
+                if (typeof data === "string") {
+                    const isCopiable = fieldsToStyle.includes(currentPath);
+
+                    // --- INICIO DEL CÓDIGO DE DEPURACIÓN ---
+                    // Imprimirá en la consola cada ruta de string que encuentre
+                    console.log(
+                        `Path: '${currentPath}', Es Copiable: ${isCopiable}`,
+                    );
+                    // --- FIN DEL CÓDIGO DE DEPURACIÓN ---
+
+                    const isPdfLink = currentPath === this.RESUME_PDF_PATH;
+                    if (isPdfLink) {
+                        return `<span class="string"><a href="${data}" target="_blank" rel="noopener noreferrer" class="json-pdf-link">${JSON.stringify(data)}</a></span>`;
+                    }
+                    if (isCopiable) {
+                        return `<span class="string"><span class="json-copyable-field" data-copy-text="${data}">${JSON.stringify(data)}</span></span>`;
+                    }
+                    return `<span class="string">${JSON.stringify(data)}</span>`;
+                }
+                if (typeof data === "number")
+                    return `<span class="number">${data}</span>`;
+                if (typeof data === "boolean")
+                    return `<span class="boolean">${data}</span>`;
+                return "";
+            }
+
+            // --- Lógica para Arrays ---
+            if (Array.isArray(data)) {
+                let arrHtml = "[\n";
+                arrHtml += data
+                    .map((item, i) => {
+                        const itemPath = `${currentPath}[${i}]`;
+                        return `${" ".repeat((indentLevel + 1) * 4)}${this.highlightAndFoldJson(item, fieldsToStyle, itemPath, indentLevel + 1)}`;
+                    })
+                    .join(",\n");
+                arrHtml += `\n${indent}]`;
+                return arrHtml;
+            }
+
+            // --- Lógica para Objetos ---
+            let objHtml = "{\n";
+            objHtml += Object.keys(data)
+                .map((key) => {
+                    const keyPath = currentPath ? `${currentPath}.${key}` : key;
+                    const valueHtml = this.highlightAndFoldJson(
+                        data[key],
+                        fieldsToStyle,
+                        keyPath,
+                        indentLevel + 1,
+                    );
+                    return `${" ".repeat((indentLevel + 1) * 4)}<span class="key">"${key}"</span>: ${valueHtml}`;
+                })
+                .join(",\n");
+            objHtml += `\n${indent}}`;
+            return objHtml;
+        }
+
+        handleFoldToggle(event) {
+            const target = event.currentTarget;
+            const content = target.nextElementSibling.nextElementSibling;
+            if (content?.classList.contains("json-folded-content")) {
+                content.classList.toggle("hidden");
+                target.textContent = content.classList.contains("hidden")
+                    ? "▸"
+                    : "▾";
+            }
+        }
+
+        handleJsonContentClick(event) {
+            const target = event.currentTarget;
+            this.handleCopyToClipboard(
+                target.dataset.copyText || target.textContent,
+                target,
+            );
+        }
+
+        handleShowMoreClick(event) {
+            const button = event.currentTarget;
+            this.expandedSections[button.dataset.path] =
+                !this.expandedSections[button.dataset.path];
+            this.renderPortfolioJson();
+        }
+
+        handleCopyToClipboard(text, element) {
+            navigator.clipboard.writeText(text).then(() => {
+                this.copyMessageDiv.textContent = this.strings.copySuccess;
+                const rect = element.getBoundingClientRect();
+                this.copyMessageDiv.style.top = `${rect.top - 30}px`;
+                this.copyMessageDiv.style.left = `${rect.left + rect.width / 2}px`;
+                this.copyMessageDiv.classList.add("show");
+                setTimeout(
+                    () => this.copyMessageDiv.classList.remove("show"),
+                    1500,
+                );
+            });
+        }
+        startTour(retries = 15) {
+            if (localStorage.getItem("portfolioTourSeen") === "true") {
+                return;
+            }
+            if (retries <= 0) {
+                console.error(
+                    "Driver.js no se pudo cargar a tiempo. El tour no se iniciará.",
+                );
+                return;
+            }
+
+            if (window.driver) {
+                const driver = window.driver.js.driver;
+                const driverObj = driver({
+                    nextBtnText: ">",
+                    prevBtnText: "<",
+                    doneBtnText: "✕",
+                    showProgress: true,
+                    allowClose: false,
+                    steps: [
+                        // 4. USAMOS this.strings PARA LAS TRADUCCIONES
+                        {
+                            popover: {
+                                title: this.strings.tourStep1Title,
+                                description: this.strings.tourStep1Desc,
+                            },
+                        },
+                        {
+                            element: "#send-button",
+                            popover: {
+                                title: this.strings.tourStep2Title,
+                                description: this.strings.tourStep2Desc,
+                                side: "bottom",
+                                align: "start",
+                            },
+                        },
+                        {
+                            element: ".response-section",
+                            popover: {
+                                title: this.strings.tourStep3Title,
+                                description: this.strings.tourStep3Desc,
+                                side: "top",
+                                align: "start",
+                            },
+                        },
+                        // 5. CORREGIMOS LA RUTA DE LA IMAGEN
+                        {
+                            popover: {
+                                title: this.strings.tourStep4Title,
+                                description: `<img src='/assets/bobGif.gif' style='height: 202.5px; width: 270px;' /><span style='font-size: 15px; display: block; margin-top: 10px; text-align: center;'>${this.strings.tourStep4Desc}</span>`,
+                            },
+                        },
+                    ],
+                    onDestroyed: () => {
+                        localStorage.setItem("portfolioTourSeen", "true");
+                    },
+                });
+                driverObj.drive();
+            } else {
+                setTimeout(() => this.startTour(retries - 1), 200);
+            }
+        }
+    }
+
+    new EndpointViewer(dataToShow, clientStrings, isHomePage);
+</script>

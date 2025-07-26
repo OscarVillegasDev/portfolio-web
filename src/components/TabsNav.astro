@@ -1,0 +1,51 @@
+---
+// src/components/TabsNav.astro
+import { getLangFromUrl } from '../i18n/utils';
+
+// 1. Detecta el idioma actual desde la URL
+const lang = getLangFromUrl(Astro.url);
+---
+<nav class="endpoint-tabs">
+    <a href={`/${lang}/`} class="endpoint-tab" class:list={{ 'is-active': Astro.url.pathname === `/${lang}` || Astro.url.pathname === `/${lang}/` }}>
+        GET /personal-data
+    </a>
+    <a href={`/${lang}/experience`} class="endpoint-tab" class:list={{ 'is-active': Astro.url.pathname === `/${lang}/experience` }}>
+        GET /experience
+    </a>
+    <a href={`/${lang}/skills`} class="endpoint-tab" class:list={{ 'is-active': Astro.url.pathname === `/${lang}/skills` }}>
+        GET /skills
+    </a>
+    <a href={`/${lang}/proyectos`} class="endpoint-tab" class:list={{ 'is-active': Astro.url.pathname === `/${lang}/proyectos` }}>
+        GET /projects
+    </a>
+     <a href={`/${lang}/certificaciones`} class="endpoint-tab" class:list={{ 'is-active': Astro.url.pathname === `/${lang}/certificaciones` }}>
+        GET /certifications-courses
+    </a>
+</nav>
+
+<style>
+    .endpoint-tabs {
+        padding: 10px 15px 0 15px;
+        display: flex;
+        gap: 5px;
+        background-color: var(--bg-secondary);
+        border-bottom: 1px solid var(--border-color);
+        flex-wrap: wrap;
+    }
+    .endpoint-tab {
+        color: var(--text-secondary);
+        text-decoration: none;
+        padding: 8px 15px;
+        font-family: 'Fira Code', monospace;
+        font-size: 0.9em;
+        transition: color 0.2s ease, border-color 0.2s ease;
+        border-bottom: 2px solid transparent;
+    }
+    .endpoint-tab:hover {
+        color: var(--text-primary);
+    }
+    .endpoint-tab.is-active {
+        color: var(--accent-color);
+        border-bottom-color: var(--accent-color);
+    }
+</style>

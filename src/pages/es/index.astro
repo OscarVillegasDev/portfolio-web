@@ -1,0 +1,24 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import EndpointView from '../../components/EndpointView.astro';
+import { PORTFOLIO_DATA as portfolioData } from '../../data/portfolio-data-es.js';
+
+// La página principal puede mostrar los datos personales y el resumen
+const personalData = {
+    personalInfo: portfolioData.details[0].personalInfo,
+    summary: portfolioData.details[0].summary
+};
+const response = {
+        code: portfolioData.code,
+        message: portfolioData.message,
+        details: 
+            personalData
+    };
+---
+<BaseLayout>
+    <EndpointView 
+        endpointTitle="Personal-Data" 
+        dataToShow={response} 
+        isHomePage={true}
+    />
+</BaseLayout>

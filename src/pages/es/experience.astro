@@ -1,0 +1,22 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import EndpointView from '../../components/EndpointView.astro';
+// Importa los datos EN ESPAÑOL
+import { PORTFOLIO_DATA } from '../../data/portfolio-data-es.js';
+
+
+
+const experienciaData = PORTFOLIO_DATA.details[0].experience;
+const response = {
+        code: PORTFOLIO_DATA.code,
+        message: PORTFOLIO_DATA.message,
+        details: 
+            experienciaData
+    };
+---
+<BaseLayout>
+    <EndpointView 
+        endpointTitle="Experiencia" 
+        dataToShow={response} 
+    />
+</BaseLayout>

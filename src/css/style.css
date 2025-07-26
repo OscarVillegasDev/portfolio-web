@@ -1,0 +1,625 @@
+:root {
+    --bg-primary: #1E1E1E; /* Fondo muy oscuro del body */
+    --bg-secondary: #2D2D2D; /* Fondo del contenedor principal */
+    --bg-tertiary: #3C3C3C; /* Fondo de la barra de request */
+    --bg-response: #252526; /* Fondo del área de pre */
+    --text-primary: #C5C5C5; /* Texto general claro */
+    --text-secondary: #888; /* Texto gris de mensajes */
+    --text-comment: #6A9955; /* Verde de comentarios */
+    --text-key: #9CDCFE; /* Azul claro de claves */
+    --text-string: #CE9178; /* Naranja rojizo de strings */
+    --text-number: #B5CEA8; /* Verde de números */
+    --text-boolean-null: #569CD6; /* Azul de booleanos/null */
+    --border-color: #4D4D4D; /* Color de borde */
+    --accent-color: #007ACC; /* Color de acento (azul de Send) */
+    --accent-hover-color: #0066B3; /* Color de acento al hover */
+    --pdf-link-color: #8be9fd; /* Color de enlace PDF */
+    --pdf-link-hover-color: #6272a4; /* Color de enlace PDF al hover */
+}
+
+html.light-mode {
+    --bg-primary: #F0F0F0;
+    --bg-secondary: #FFFFFF;
+    --bg-tertiary: #E0E0E0;
+    --bg-response: #F8F8F8;
+    --text-primary: #333333;
+    --text-secondary: #666;
+    --text-comment: #008000; /* Darker green */
+    --text-key: #0000FF; /* Blue */
+    --text-string: #A31515; /* Red */
+    --text-number: #098677; /* Teal */
+    --text-boolean-null: #800080; /* Purple */
+    --border-color: #CCCCCC;
+    --accent-color: #007ACC;
+    --accent-hover-color: #0056b3;
+    --pdf-link-color: #0000EE;
+    --pdf-link-hover-color: #551A8B;
+}
+
+.top-bar {
+    background-color: var(--bg-tertiary); /* Fondo similar a la request-bar */
+    padding: 10px 20px;
+    border-bottom: 1px solid var(--border-color);
+    flex-shrink: 0; /* No se comprime */
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2); /* Sombra sutil */
+    display: flex;
+    justify-content: flex-end; /* Alinea los elementos a la derecha */
+    align-items: center;
+    gap: 15px; /* Espacio entre los elementos */
+}
+
+.top-bar-content {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+}
+
+.language-switcher select {
+    background-color: var(--bg-secondary);
+    color: var(--text-primary);
+    border: 1px solid var(--border-color);
+    padding: 6px 10px;
+    border-radius: 4px;
+    font-family: 'Fira Code', monospace;
+    font-size: 0.85em;
+    cursor: pointer;
+    outline: none;
+    transition: background-color 0.3s ease, color 0.3s ease, border-color 0.3s ease;
+}
+
+.language-switcher select:hover {
+    border-color: var(--accent-color);
+}
+
+.theme-toggle-button {
+    background-color: var(--bg-secondary);
+    color: var(--text-primary);
+    border: 1px solid var(--border-color);
+    padding: 8px 12px;
+    border-radius: 50%; /* Circular */
+    cursor: pointer;
+    font-size: 1.1em;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    transition: background-color 0.3s ease, color 0.3s ease, border-color 0.3s ease, transform 0.2s ease;
+    outline: none;
+}
+
+.theme-toggle-button:hover {
+    background-color: var(--accent-hover-color);
+    color: white;
+    border-color: var(--accent-color);
+    transform: rotate(15deg); /* Efecto giratorio para el icono */
+}
+
+/* Iconos de sol y luna para el tema */
+html.light-mode .theme-toggle-button .fa-sun {
+    display: none; /* Oculta el sol en modo claro */
+}
+
+html:not(.light-mode) .theme-toggle-button .fa-moon {
+    display: none; /* Oculta la luna en modo oscuro (por defecto) */
+}
+
+
+
+
+/* Estilos Globales y Base */
+html, body { /* Asegura que html y body ocupen toda la altura de la viewport */
+    height: 100%;
+    margin: 0;
+    padding: 0;
+    font-family: 'Fira Code', monospace;
+    background-color: var(--bg-primary); /* Fondo muy oscuro, similar al de Postman/VS Code */
+    color: var(--text-primary); /* Color de texto general */
+}
+
+body {
+    display: flex; /* Convierte el body en un contenedor flex */
+    flex-direction: column; /* Apila sus hijos (page-wrapper y footer) verticalmente */
+    min-height: 100vh; /* Asegura que el body tenga al menos la altura de la viewport */
+}
+
+/* NUEVO: Contenedor para envolver el contenido principal (postman-container) */
+.page-wrapper {
+    display: flex; /* Permite que el contenido dentro se centre */
+    justify-content: center; /* Centra el postman-container horizontalmente */
+    align-items: flex-start; /* Alinea el postman-container arriba dentro del wrapper */
+    flex-grow: 1; /* Permite que ocupe todo el espacio restante, empujando el footer hacia abajo */
+    padding: 20px; /* Padding global alrededor del contenido principal */
+    box-sizing: border-box; /* Incluye padding en el tamaño */
+    width: 100%; /* Ocupa el ancho completo */
+    overflow-y: auto; /* Permite desplazamiento vertical si el contenido del page-wrapper es demasiado grande */
+    overflow-x: hidden; /* Evita desplazamiento horizontal innecesario */
+}
+
+
+/* Contenedor Principal de la Interfaz Postman */
+.postman-container {
+    width: 90%;
+    max-width: 1200px;
+    background-color: var(--bg-secondary);
+    border-radius: 8px;
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.4);
+    display: flex; /* Para organizar la barra de petición, tabs y respuesta en columna */
+    flex-direction: column; /* Apila los elementos internos */
+}
+
+/* --- Barra de Solicitud (Método, URL, Botón Enviar) --- */
+.request-bar {
+    display: flex;
+    flex-wrap: wrap; /* Permitir que los elementos salten de línea si no caben */
+    align-items: center;
+    padding: 10px 15px;
+    background-color: var(--bg-tertiary);
+    border-bottom-color: var(--border-color);
+    gap: 10px; /* Espacio entre los elementos */
+}
+
+.method-select {
+    background-color: var(--bg-secondary);
+    color: var(--text-key); /* Mantener el color de la clave para GET */
+    border: none;
+    padding: 8px 12px;
+    border-radius: 4px;
+    font-family: 'Fira Code', monospace;
+    font-weight: bold;
+    cursor: not-allowed;
+    flex-shrink: 0; /* Evita que el select se encoja si no hay espacio */
+}
+
+.url-input {
+    flex-grow: 1; /* Ocupa el espacio restante */
+    flex-basis: auto; /* Permite que el input se adapte */
+    min-width: 150px; /* Un mínimo para el input en pantallas pequeñas */
+    background-color: var(--bg-primary); /* Un poco más oscuro que el secundario */
+    color: var(--text-primary);
+    border-color: var(--border-color);
+    padding: 8px 12px;
+    border-radius: 4px;
+    font-family: 'Fira Code', monospace;
+    font-size: 0.9em;
+    outline: none;
+}
+
+.send-button {
+    background-color: var(--accent-color);
+    color: white;
+    border: none;
+    padding: 8px 20px;
+    border-radius: 4px;
+    cursor: pointer;
+    font-family: 'Fira Code', monospace;
+    font-weight: bold;
+    transition: background-color 0.2s ease;
+    flex-shrink: 0; /* Evita que el botón se encoja */
+}
+
+.send-button:hover {
+    background-color: var(--accent-hover-color);
+}
+
+/* Spinner para el botón Send */
+.send-button i {
+    margin-right: 5px;
+}
+
+/* --- Pestañas de Navegación --- */
+.tabs {
+    display: flex;
+    flex-wrap: wrap; /* Permitir que las pestañas salten de línea */
+    background-color: var(--bg-secondary);
+    border-bottom-color: var(--border-color);
+    padding: 0 15px;
+    justify-content: flex-start; /* Alinea las pestañas al inicio */
+    gap: 5px; /* Pequeño espacio entre pestañas */
+    flex-shrink: 0; /* Asegura que las pestañas no se compriman */
+}
+
+.tab {
+    padding: 10px 15px;
+    color: var(--text-key);
+    cursor: pointer;
+    border-bottom: 2px solid transparent;
+    transition: border-bottom 0.2s ease, color 0.2s ease;
+    font-size: 0.9em;
+    flex-shrink: 0; /* Evita que las pestañas se encojan */
+    white-space: nowrap; /* Evita que el texto de la pestaña se rompa */
+}
+
+.tab.active {
+    color: var(--text-primary);
+    border-bottom-color: var(--accent-color);
+}
+
+
+.tab-content {
+    padding: 20px 15px;
+    background-color: var(--bg-secondary);
+    min-height: 50px; /* Para que no se colapse */
+    box-sizing: border-box; /* Incluye padding en el tamaño total */
+    flex-grow: 1; /* Permite que el contenido activo ocupe el espacio */
+}
+
+.no-body-message {
+    color: var(--text-secondary);
+    text-align: center;
+    font-style: italic;
+    font-size: 0.9em;
+}
+
+/* --- Sección de Respuesta --- */
+.response-section {
+    background-color: var(--bg-primary);
+    border-top-color: var(--border-color);
+    padding: 15px;
+    display: flex; /* Para organizar el header y body de la respuesta */
+    flex-direction: column; /* Apila el header y body de la respuesta */
+}
+
+.response-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 10px;
+    flex-shrink: 0; /* Asegura que el header de respuesta no se comprima */
+}
+
+.response-title {
+    font-size: 1.1em;
+    font-weight: bold;
+    color: var(--text-primary);
+}
+
+.response-details span {
+    margin-left: 15px;
+    font-size: 0.85em;
+    color: var(--text-secondary);
+}
+
+.status-code {
+   color: var(--text-primary); /* Default gris, se volverá verde en OK */
+    font-weight: bold;
+}
+
+.response-time, .response-size {
+    color: #999999; /* Gris más suave para detalles secundarios */
+}
+
+.response-body {
+    position: relative; /* Necesario para que overflow-y funcione bien en algunos contextos flex */
+}
+
+.response-body pre {
+    background-color: var(--bg-response); /* Fondo del JSON, un poco más claro que el contenedor principal */
+    padding: 15px;
+    border-radius: 6px;
+    white-space: pre-wrap; /* Mantiene el formato pero permite el wrap de líneas largas */
+    word-wrap: break-word; /* Rompe palabras largas si es necesario */
+    box-sizing: border-box; /* Incluye padding en la altura */
+}
+
+/* --- Colores de Resaltado de Sintaxis JSON --- */
+.key {
+    color: var(--text-key); /* Azul claro para las claves */
+}
+
+.string {
+    color: var(--text-string); /* Naranja rojizo para las cadenas (valores string por defecto) */
+}
+
+.number {
+    color: var(--text-number); /* Verde para números */
+}
+
+.boolean {
+    color: var(--text-boolean-null); /* Azul oscuro para booleanos */
+}
+
+.null {
+    color: var(--text-boolean-null); /* Opcional: el mismo azul que booleanos, o #C5C5C5 */
+}
+
+.comment { /* Para el texto "// Fetching data..." */
+    color: var(--text-comment); /* Un verde de comentario de código */
+    font-style: italic;
+}
+
+/* --- Estilos para Plegado de JSON (toggles "▸" / "▾") --- */
+.json-foldable-toggle {
+    cursor: pointer;
+    margin-right: 5px;
+    user-select: none;
+    color: var(--text-secondary);
+    font-weight: bold;
+    display: inline-block;
+    width: 1em;
+    text-align: center;
+}
+
+.json-folded-content {
+    display: block; /* Por defecto visible */
+    font-size: clamp(1rem, 2.5vw, 1.15rem);
+}
+
+.json-folded-content.hidden {
+    display: none; /* Oculta el contenido cuando está plegado */
+}
+
+.json-bracket {
+    color: var(--text-primary); /* Gris claro, como el texto general */
+}
+
+/* --- Estilos para Campos Copiables y Estilizados --- */
+.string .json-copyable-field {
+    color: var(--text-string); /* Naranja rojizo */
+    text-decoration: underline dotted; /* Subrayado punteado */
+    cursor: pointer; /* Cursor de puntero */
+}
+
+.string .json-copyable-field:hover {
+    color: var(--accent-hover-color); /* Naranja más claro al pasar el ratón */
+    text-decoration: underline; /* Subrayado sólido */
+}
+
+/* --- Estilos específicos para el Enlace PDF --- */
+/* Esta clase se aplica al <a> tag del PDF. */
+.string a.json-pdf-link {
+    color: var(--pdf-link-color); /* Azul más cercano a un enlace web tradicional */
+    text-decoration: underline; /* Subrayado sólido */
+    cursor: pointer; /* Cursor de puntero */
+}
+
+.string a.json-pdf-link:hover {
+    color: var(--pdf-link-hover-color); /* Un azul ligeramente más oscuro o diferente al pasar el ratón */
+    text-decoration: none; /* Opcional: quitar subrayado al pasar el ratón */
+}
+
+/* --- Mensaje de Confirmación de Copia --- */
+.copy-message {
+    position: fixed;
+    background-color: #333;
+    color: white;
+    padding: 8px 15px;
+    border-radius: 5px;
+    z-index: 1000;
+    opacity: 0;
+    transition: opacity 0.3s ease-in-out, transform 0.3s ease-in-out;
+    pointer-events: none;
+    font-size: 0.9em;
+    text-align: center;
+    left: 50%;
+    top: 50%;
+    transform: translateX(-50%);
+    white-space: nowrap;
+}
+
+.copy-message.show {
+    opacity: 1;
+    transform: translateX(-50%) translateY(-10px);
+}
+
+/* --- Estilos para "Ver Más..." (Botones [+] / [-] minimalistas) --- */
+.show-more-button {
+    background-color: transparent;
+    border: none;
+    color: var(--text-key);
+    cursor: pointer;
+    font-family: 'Fira Code', monospace;
+    font-size: 1em;
+    font-weight: bold;
+    padding: 0 4px;
+    display: inline-block;
+    line-height: 1;
+    text-align: center;
+    transition: color 0.2s ease, transform 0.1s ease;
+    margin-top: 5px;
+    margin-bottom: 5px;
+    box-shadow: none;
+}
+
+.show-more-button:hover {
+    color: var(--accent-hover-color);
+    transform: translateY(-1px);
+}
+
+.show-more-button:active {
+    transform: translateY(0);
+}
+
+/* Para el texto de comentario como "... and X more items" */
+.json-comment-line {
+    color: var(--text-comment);
+    font-style: normal;
+    font-size: clamp(1rem, 2.5vw, 1.15rem);
+    display: block;
+    margin-bottom: 2px;
+}
+
+/* --- Estilos para el Pie de Página (Footer) --- */
+.main-footer {
+    background-color: var(--bg-tertiary); /* Footer con el mismo color de la request bar */
+    color: var(--text-secondary);
+    border-top: 1px solid var(--border-color);
+    font-family: 'Fira Code', monospace;
+    padding: 30px 20px;
+    text-align: center;
+    margin-top: 40px; /* Espacio entre el contenedor principal y el footer */
+    width: 100%;
+    box-sizing: border-box;
+    flex-shrink: 0; /* Previene que el footer se encoja en diseños flex */
+}
+
+.footer-content {
+    max-width: 800px;
+    margin: 0 auto;
+}
+
+.footer-links {
+    margin-bottom: 15px;
+}
+
+.footer-links a {
+    color: var(--text-key);
+    font-size: 1.8em;
+    margin: 0 10px;
+    transition: color 0.2s ease, transform 0.2s ease;
+    text-decoration: none;
+}
+
+.footer-links a:hover {
+    color: var(--accent-hover-color);
+    transform: translateY(-3px);
+}
+
+.footer-text {
+    font-size: 0.85em;
+    line-height: 1.6;
+    margin-bottom: 10px;
+    color: var(--text-secondary);
+}
+
+.footer-text span {
+    display: block;
+    margin-top: 5px;
+}
+
+.footer-note {
+    font-size: 0.75em;
+    font-style: italic;
+    color: var(--text-comment);
+}
+
+/* --- Media Queries para Responsividad --- */
+@media (max-width: 600px) {
+    .page-wrapper {
+        padding: 10px;
+    }
+
+    .postman-container {
+        width: 100%;
+        border-radius: 0;
+        box-shadow: none;
+    }
+
+    .request-bar {
+        flex-direction: column;
+        align-items: stretch;
+        padding: 10px;
+    }
+
+    .method-select {
+        width: 100%;
+        margin-right: 0;
+        margin-bottom: 10px;
+    }
+
+    .url-input {
+        width: 100%;
+        margin-bottom: 10px;
+    }
+
+    .send-button {
+        width: 100%;
+        margin-left: 0;
+    }
+
+    .tabs {
+        padding: 0 5px;
+        justify-content: space-around;
+        gap: 0;
+    }
+
+    .tab {
+        padding: 8px 10px;
+        font-size: 0.8em;
+        flex-grow: 1;
+        text-align: center;
+    }
+
+    .tab-content, .response-section {
+        padding: 10px;
+    }
+
+    .response-details {
+        flex-direction: column;
+        align-items: flex-start;
+        margin-top: 5px;
+    }
+
+    .response-details span {
+        margin-left: 0;
+        margin-bottom: 5px;
+    }
+
+    .show-more-button {
+        margin-left: 10px !important;
+    }
+    .json-comment-line {
+        margin-left: 10px !important;
+    }
+
+    .main-footer {
+        padding: 20px 10px;
+        margin-top: 20px;
+    }
+
+    .footer-links a {
+        font-size: 1.5em;
+        margin: 0 8px;
+    }
+
+    .footer-text, .footer-note {
+        font-size: 0.8em;
+    }
+}
+
+@media (max-width: 400px) {
+    .tab {
+        font-size: 0.75em;
+        padding: 8px 5px;
+    }
+}
+
+.loader-overlay {
+    position: fixed; /* Cubre toda la ventana */
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: var(--bg-primary); /* Usa el color de fondo principal */
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    z-index: 9999; /* Asegura que esté por encima de todo lo demás */
+    transition: opacity 0.5s ease, visibility 0.5s ease; /* Transición suave para ocultar */
+}
+
+.loader-overlay.hidden {
+    opacity: 0;
+    visibility: hidden;
+    pointer-events: none; /* Permite clics a través una vez oculto */
+}
+
+.spinner {
+    border: 4px solid rgba(255, 255, 255, 0.3); /* Base gris del spinner */
+    border-top: 4px solid var(--accent-color); /* Color de acento para la parte giratoria */
+    border-radius: 50%;
+    width: 50px;
+    height: 50px;
+    animation: spin 1s linear infinite; /* Animación de giro */
+    margin-bottom: 15px;
+}
+
+@keyframes spin {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+}
+
+.loading-text {
+    color: var(--text-primary); /* Color del texto de carga */
+    font-size: 1.1em;
+    font-weight: bold;
+}

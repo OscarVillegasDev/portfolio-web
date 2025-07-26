@@ -1,0 +1,23 @@
+/* Language switcher styles */
+.language-switcher {
+    display: flex;
+    align-items: center;
+}
+
+.lang-button {
+    background: none;
+    border: none;
+    color: var(--text-primary);
+    cursor: pointer;
+    padding: 5px;
+    font-size: 1em;
+}
+
+.lang-button.active {
+    font-weight: bold;
+    text-decoration: underline;
+}
+
+.lang-separator {
+    margin: 0 5px;
+}
