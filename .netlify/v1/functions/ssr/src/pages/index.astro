@@ -1,0 +1,15 @@
+---
+// Detecta el idioma del navegador y redirige. Si no es español, manda a inglés.
+export const prerender = false;
+const langHeader = Astro.request.headers.get('accept-language');
+const userLang = langHeader?.split(',')[0].split('-')[0];
+
+if (userLang === 'es') {
+  return Astro.redirect('/es');
+}else{
+    return Astro.redirect('/en');
+}
+
+// Inglés es el idioma por defecto para todos los demás casos.
+
+---

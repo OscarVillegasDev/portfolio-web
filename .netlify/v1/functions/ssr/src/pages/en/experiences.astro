@@ -1,0 +1,25 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import EndpointView from '../../components/EndpointView.astro';
+import { PORTFOLIO_DATA } from '../../data/portfolio-data-en.js';
+
+const experienceData = {
+    experience: PORTFOLIO_DATA.details[1].experience
+}
+const response = {
+        code: PORTFOLIO_DATA.code,
+        message: PORTFOLIO_DATA.message,
+        details: 
+            experienceData
+    };
+const experienceShowMoreConfig = {
+    'details.experience': { limit: 3 }
+};
+---
+<BaseLayout>
+    <EndpointView 
+        endpointTitle="Experiences" 
+        dataToShow={response}
+        showMoreConfig={experienceShowMoreConfig}
+    />
+</BaseLayout>
