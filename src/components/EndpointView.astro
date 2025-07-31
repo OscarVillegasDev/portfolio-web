@@ -45,6 +45,18 @@ const clientStrings = {
     tourStep3Desc: t("tour_step3_desc"),
     tourStep4Title: t("tour_step4_title"),
     tourStep4Desc: t("tour_step4_desc"),
+    tourStep5Title: t("tour_step5_title"),
+    tourStep5Desc: t("tour_step5_desc"),
+    tourStep6Title: t("tour_step6_title"),
+    tourStep6Desc: t("tour_step6_desc"),
+    tourStep7Title: t("tour_step7_title"),
+    tourStep7Desc: t("tour_step7_desc"),
+    tourStep8Title: t("tour_step8_title"),
+    tourStep8Desc: t("tour_step8_desc"),
+    tourStep9Title: t("tour_step9_title"),
+    tourStep9Desc: t("tour_step9_desc"),
+    tourStep10Title: t("tour_step10_title"),
+    tourStep10Desc: t("tour_step10_desc"),
 };
 ---
 
@@ -226,6 +238,7 @@ const clientStrings = {
             this.selectVerb = document.getElementById("method-select");
 
             this.DATA_404 = DATA_404;
+            this.driverObj = null;
 
             this.init();
         }
@@ -234,11 +247,17 @@ const clientStrings = {
             this.sendButton.addEventListener("click", () =>
                 this.sendApiRequest(),
             );
-            if (this.isHomePage) {
-                this.startTour();
-            }
+            this.startTour();
+            
             this.tabButtons.forEach((tab) => {
                 tab.addEventListener("click", this.handleTabClick.bind(this));
+            });
+
+            this.tourTabLinks = document.querySelectorAll(".endpoint-tab");
+            this.tourTabLinks.forEach((link) => {
+                link.addEventListener("click", (e) =>
+                    this.handleTourLinkClick(e),
+                );
             });
         }
 
@@ -531,6 +550,15 @@ const clientStrings = {
                 );
             });
         }
+
+        handleTourLinkClick(event) {
+            // Guarda el paso actual del tour antes de que el navegador navegue a la nueva página
+            if (this.driverObj && this.driverObj.isActivated()) {
+                const currentStepIndex = this.driverObj.state.activeIndex;
+                localStorage.setItem("currentTourStep", currentStepIndex);
+            }
+        }
+
         startTour(retries = 15) {
             if (localStorage.getItem("portfolioTourSeen") === "true") {
                 return;
@@ -544,22 +572,37 @@ const clientStrings = {
 
             if (window.driver) {
                 const driver = window.driver.js.driver;
-                const driverObj = driver({
+                this.driverObj = driver({
                     nextBtnText: ">",
                     prevBtnText: "<",
                     doneBtnText: "✕",
                     showProgress: true,
                     allowClose: false,
+                    onNextClick: (element, step, { config, state, driver }) => {
+                        driver.moveNext();
+                        localStorage.setItem(
+                            "currentTourStep",
+                            state.activeIndex,
+                        );
+                    },
+                    onPrevClick: (element, step, { config, state, driver }) => {
+                        
+                        driver.movePrevious();
+                        localStorage.setItem(
+                            "currentTourStep",
+                            state.activeIndex,
+                        );
+                    },
                     steps: [
-                        // 4. USAMOS this.strings PARA LAS TRADUCCIONES
                         {
+                            //intro
                             popover: {
                                 title: this.strings.tourStep1Title,
                                 description: this.strings.tourStep1Desc,
                             },
                         },
                         {
-                            element: "#send-button",
+                            element: ".endpoint-tabs",
                             popover: {
                                 title: this.strings.tourStep2Title,
                                 description: this.strings.tourStep2Desc,
@@ -568,27 +611,86 @@ const clientStrings = {
                             },
                         },
                         {
-                            element: ".response-section",
+                            element: "#personal-data-tab",
                             popover: {
                                 title: this.strings.tourStep3Title,
                                 description: this.strings.tourStep3Desc,
+                                side: "bottom",
+                                align: "start",
+                            },
+                        },
+                        {
+                            element: "#experience-tab",
+                            popover: {
+                                title: this.strings.tourStep4Title,
+                                description: this.strings.tourStep4Desc,
+                                side: "bottom",
+                                align: "start",
+                            },
+                        },
+                        {
+                            element: "#project-tab",
+                            popover: {
+                                title: this.strings.tourStep5Title,
+                                description: this.strings.tourStep5Desc,
+                                side: "bottom",
+                                align: "start",
+                            },
+                        },
+                        {
+                            element: "#method-select",
+                            popover: {
+                                title: this.strings.tourStep6Title,
+                                description: this.strings.tourStep6Desc,
+                                side: "bottom",
+                                align: "start",
+                            },
+                        },
+                        {
+                            element: "#url-input",
+                            popover: {
+                                title: this.strings.tourStep7Title,
+                                description: this.strings.tourStep7Desc,
+                                side: "bottom",
+                                align: "start",
+                            },
+                        },
+                        {
+                            element: "#send-button",
+                            popover: {
+                                title: this.strings.tourStep8Title,
+                                description: this.strings.tourStep8Desc,
+                                side: "bottom",
+                                align: "start",
+                            },
+                        },
+                        {
+                            element: ".response-section",
+                            popover: {
+                                title: this.strings.tourStep9Title,
+                                description: this.strings.tourStep9Desc,
                                 side: "top",
                                 align: "start",
                             },
                         },
-                        // 5. CORREGIMOS LA RUTA DE LA IMAGEN
                         {
                             popover: {
-                                title: this.strings.tourStep4Title,
-                                description: `<img src='/assets/bobGif.gif' style='height: 202.5px; width: 270px;' /><span style='font-size: 15px; display: block; margin-top: 10px; text-align: center;'>${this.strings.tourStep4Desc}</span>`,
+                                title: this.strings.tourStep10Title,
+                                description: `<img src='/assets/bobGif.gif' style='height: 202.5px; width: 270px;' /><span style='font-size: 15px; display: block; margin-top: 10px; text-align: center;'>${this.strings.tourStep10Desc}</span>`,
                             },
                         },
                     ],
+
                     onDestroyed: () => {
                         localStorage.setItem("portfolioTourSeen", "true");
+                        localStorage.removeItem("currentTourStep");
                     },
                 });
-                driverObj.drive();
+
+                const savedTourStep = localStorage.getItem("currentTourStep");
+                this.driverObj.drive(
+                    savedTourStep ? parseInt(savedTourStep) : 0,
+                );
             } else {
                 setTimeout(() => this.startTour(retries - 1), 200);
             }
