@@ -9,17 +9,11 @@ const lang = getLangFromUrl(Astro.url);
     <a href={`/${lang}/`} class="endpoint-tab" class:list={{ 'is-active': Astro.url.pathname === `/${lang}` || Astro.url.pathname === `/${lang}/` }}>
         GET /personal-data
     </a>
-    <a href={`/${lang}/experience`} class="endpoint-tab" class:list={{ 'is-active': Astro.url.pathname === `/${lang}/experience` }}>
-        GET /experience
+    <a href={`/${lang}/experiences`} class="endpoint-tab" class:list={{ 'is-active': Astro.url.pathname === `/${lang}/experiences` }}>
+        GET /experiences
     </a>
-    <a href={`/${lang}/skills`} class="endpoint-tab" class:list={{ 'is-active': Astro.url.pathname === `/${lang}/skills` }}>
-        GET /skills
-    </a>
-    <a href={`/${lang}/proyectos`} class="endpoint-tab" class:list={{ 'is-active': Astro.url.pathname === `/${lang}/proyectos` }}>
+    <a href={`/${lang}/projects`} class="endpoint-tab" class:list={{ 'is-active': Astro.url.pathname === `/${lang}/projects` }}>
         GET /projects
-    </a>
-     <a href={`/${lang}/certificaciones`} class="endpoint-tab" class:list={{ 'is-active': Astro.url.pathname === `/${lang}/certificaciones` }}>
-        GET /certifications-courses
     </a>
 </nav>
 

@@ -1,0 +1,26 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import EndpointView from '../../components/EndpointView.astro';
+// Importa los datos EN ESPAÑOL
+import { PORTFOLIO_DATA } from '../../data/portfolio-data-es.js';
+
+const projectData = {
+    projects: PORTFOLIO_DATA.details[2].projects
+}
+const response = {
+        code: PORTFOLIO_DATA.code,
+        message: PORTFOLIO_DATA.message,
+        details: 
+            projectData
+    };
+const projectShowMoreConfig = {
+    'details.projects': { limit: 3 }
+};
+---
+<BaseLayout>
+    <EndpointView 
+        endpointTitle="projects" 
+        dataToShow={response} 
+        showMoreConfig={projectShowMoreConfig}
+    />
+</BaseLayout>

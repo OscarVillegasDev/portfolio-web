@@ -2,13 +2,22 @@
 // src/components/EndpointView.astro
 import TabsNav from "./TabsNav.astro";
 import { getLangFromUrl, useTranslations } from "../i18n/utils";
+import { DATA_404 } from "../data/404.js";
 
 export interface Props {
     endpointTitle: string;
     dataToShow: any;
     isHomePage?: boolean;
+    copyableFields?: string[];
+    showMoreConfig?: object;
 }
-const { endpointTitle, dataToShow, isHomePage = false } = Astro.props;
+const {
+    endpointTitle,
+    dataToShow,
+    isHomePage = false,
+    copyableFields = [],
+    showMoreConfig = {},
+} = Astro.props;
 
 const lang = getLangFromUrl(Astro.url);
 const t = useTranslations(lang);
@@ -19,6 +28,9 @@ const clientStrings = {
     statusReady: t("status_ready"),
     statusSending: t("status_sending"),
     statusOk: t("status_ok"),
+    status404: t("status_404"),
+    errorVerb: t("errorVerb"),
+    errorUrl: t("errorUrl"),
     responseTime: t("response_time_label"),
     responseSize: t("response_size_label"),
     pressSend: t("press_send_comment"),
@@ -39,27 +51,116 @@ const clientStrings = {
 <div class="postman-container">
     <TabsNav />
     <div class="request-bar">
-        <select class="method-select" aria-label="HTTP Method"
-            ><option>GET</option></select
+        <select
+            id="method-select"
+            class="method-select"
+            aria-label="HTTP Method"
+            ><option>GET</option><option disabled>POST</option>
+            <option disabled>PUT</option>
+            <option disabled>DELETE</option></select
         >
         <input
+            id="url-input"
             type="text"
             class="url-input"
-            value={`http://airashistudio.dev/api/${endpointTitle.toLowerCase()}`}
+            value={`https://airashistudio.dev/api/oscar-villegas/v1/${endpointTitle.toLowerCase()}`}
             readonly
         />
         <button id="send-button" class="send-button">{t("send_button")}</button>
     </div>
 
     <div class="tabs" role="tablist">
-        <div class="tab active">{t("request_tab_params")}</div>
-        <div class="tab">Headers (0)</div>
-        <div class="tab">Body</div>
+        <div
+            class="tab active"
+            data-tab="params"
+            role="tab"
+            aria-selected="true"
+            aria-controls="params-content"
+        >
+            {t("request_tab_params")}
+        </div>
+        <div
+            class="tab"
+            data-tab="headers"
+            role="tab"
+            aria-selected="false"
+            aria-controls="headers-content"
+        >
+            Headers (0)
+        </div>
+        <div
+            class="tab"
+            data-tab="body"
+            role="tab"
+            aria-selected="false"
+            aria-controls="body-content"
+        >
+            Body
+        </div>
+        <div
+            class="tab"
+            data-tab="scripts"
+            role="tab"
+            aria-selected="false"
+            aria-controls="scripts-content"
+        >
+            Scripts
+        </div>
+        <div
+            class="tab"
+            data-tab="settings"
+            role="tab"
+            aria-selected="false"
+            aria-controls="settings-content"
+        >
+            {t("request_tab_settings")}
+        </div>
     </div>
 
     <div class="tab-content-container">
-        <div class="tab-content active">
+        <div
+            class="tab-content active"
+            id="params-content"
+            role="tabpanel"
+            aria-labelledby="params"
+        >
             <p class="no-body-message">{t("params_content")}</p>
+        </div>
+        <div
+            class="tab-content"
+            id="headers-content"
+            role="tabpanel"
+            aria-labelledby="headers"
+            style="display: none;"
+        >
+            <p class="no-body-message">{t("headers_content")}</p>
+        </div>
+        <div
+            class="tab-content"
+            id="body-content"
+            role="tabpanel"
+            aria-labelledby="body"
+            style="display: none;"
+        >
+            <p class="no-body-message">{t("body_content_get")}</p>
+        </div>
+        <div
+            class="tab-content"
+            id="scripts-content"
+            role="tabpanel"
+            aria-labelledby="scripts"
+            style="display: none;"
+        >
+            <p class="no-body-message">{t("scripts_content")}</p>
+        </div>
+        <div
+            class="tab-content"
+            id="settings-content"
+            role="tabpanel"
+            aria-labelledby="settings"
+            style="display: none;"
+        >
+            <p class="no-body-message">{t("settings_content")}</p>
         </div>
     </div>
 
@@ -84,26 +185,34 @@ const clientStrings = {
 
 <div id="copy-message" class="copy-message"></div>
 
-<script define:vars={{ dataToShow, clientStrings, isHomePage }}>
+<script
+    define:vars={{
+        dataToShow,
+        clientStrings,
+        isHomePage,
+        copyableFields,
+        showMoreConfig,
+        DATA_404,
+        endpointTitle,
+    }}
+>
     class EndpointViewer {
-        constructor(data, strings, isHomePage) {
+        constructor(
+            data,
+            strings,
+            isHomePage,
+            copyableFields,
+            showMoreConfig,
+            endpointTitle,
+        ) {
             this.data = data;
             this.strings = strings;
             this.isHomePage = isHomePage;
+            this.endpointTitle = endpointTitle;
 
-            this.FIELDS_TO_COPY_AND_STYLE = [
-                "details.personalInfo.fullName",
-                "details.personalInfo.email",
-                "details.personalInfo.phone",
-                "details.personalInfo.linkedIn",
-            ];
+            this.FIELDS_TO_COPY_AND_STYLE = copyableFields;
             this.RESUME_PDF_PATH = "details.personalInfo.cvPdf";
-            this.SHOW_MORE_CONFIG = {
-                experience: { limit: 2 },
-                skills: { limit: 3 },
-                certifications: { limit: 2 },
-                projects: { limit: 2 },
-            };
+            this.SHOW_MORE_CONFIG = showMoreConfig;
             this.expandedSections = {};
 
             this.sendButton = document.getElementById("send-button");
@@ -112,6 +221,11 @@ const clientStrings = {
             this.statusCodeSpan = document.getElementById("status-code");
             this.responseTimeSpan = document.getElementById("response-time");
             this.responseSizeSpan = document.getElementById("response-size");
+            this.tabButtons = document.querySelectorAll(".tab");
+            this.tabContents = document.querySelectorAll(".tab-content");
+            this.selectVerb = document.getElementById("method-select");
+
+            this.DATA_404 = DATA_404;
 
             this.init();
         }
@@ -123,6 +237,9 @@ const clientStrings = {
             if (this.isHomePage) {
                 this.startTour();
             }
+            this.tabButtons.forEach((tab) => {
+                tab.addEventListener("click", this.handleTabClick.bind(this));
+            });
         }
 
         sendApiRequest() {
@@ -134,16 +251,13 @@ const clientStrings = {
             this.jsonDisplay.textContent = "";
 
             setTimeout(() => {
-                this.renderPortfolioJson();
-                this.updateResponseDetails();
+                this.updateResponseDetails(this.selectVerb.value);
                 this.sendButton.disabled = false;
                 this.sendButton.textContent = this.strings.send;
             }, 800);
         }
 
-        updateResponseDetails() {
-            this.statusCodeSpan.textContent = this.strings.statusOk;
-            this.statusCodeSpan.style.color = "#B5CEA8";
+        updateResponseDetails(verb) {
             const time = Math.floor(Math.random() * (250 - 50 + 1)) + 50;
             const size = (
                 new TextEncoder().encode(JSON.stringify(this.data)).length /
@@ -151,6 +265,65 @@ const clientStrings = {
             ).toFixed(2);
             this.responseTimeSpan.textContent = `${this.strings.responseTime}: ${time} ms`;
             this.responseSizeSpan.textContent = `${this.strings.responseSize}: ${size} KB`;
+            const urlInput = document.querySelector(".url-input");
+            const currentUrl = urlInput ? urlInput.value : "";
+            if (
+                verb === "GET" &&
+                currentUrl ===
+                    `https://airashistudio.dev/api/oscar-villegas/v1/${endpointTitle.toLowerCase()}`
+            ) {
+                this.statusCodeSpan.textContent = this.strings.statusOk;
+                this.statusCodeSpan.style.color = "#B5CEA8";
+                this.renderPortfolioJson();
+            } else {
+                let errorMessage = [];
+
+                if (
+                    currentUrl !=
+                    `https://airashistudio.dev/api/oscar-villegas/v1/${endpointTitle.toLowerCase()}`
+                ) {
+                    errorMessage.push(`${this.strings.errorUrl}`);
+                }
+                if (verb != "GET") {
+                    errorMessage.push(`${this.strings.errorVerb}`);
+                }
+                this.statusCodeSpan.textContent = this.strings.status404;
+                this.statusCodeSpan.style.color = "#F04747";
+                this.renderPortfolioJson404(errorMessage);
+            }
+        }
+
+        renderPortfolioJson404(errorMessage) {
+            if (!this.DATA_404) return;
+            this.DATA_404.details = [];
+            this.DATA_404.details.push(errorMessage);
+
+            this.jsonDisplay.innerHTML = this.highlightAndFoldJson(
+                this.DATA_404,
+                this.FIELDS_TO_COPY_AND_STYLE, // Mantén esto si quieres que los campos del 404 sean copiables
+            );
+            // Si el JSON 404 tiene elementos plegables o copiables, asegúrate de que sus event listeners se adjunten
+            this.jsonDisplay
+                .querySelectorAll(".json-foldable-toggle")
+                .forEach((t) =>
+                    t.addEventListener("click", (e) =>
+                        this.handleFoldToggle(e),
+                    ),
+                );
+            this.jsonDisplay
+                .querySelectorAll(".json-copyable-field")
+                .forEach((e) =>
+                    e.addEventListener("click", (ev) =>
+                        this.handleJsonContentClick(ev),
+                    ),
+                );
+            this.jsonDisplay
+                .querySelectorAll(".show-more-button")
+                .forEach((b) =>
+                    b.addEventListener("click", (e) =>
+                        this.handleShowMoreClick(e),
+                    ),
+                );
         }
 
         renderPortfolioJson() {
@@ -190,65 +363,133 @@ const clientStrings = {
         ) {
             const indent = " ".repeat(indentLevel * 4);
 
-            if (data === null) return `<span class="null">null</span>`;
-
-            // --- Lógica para Valores Primitivos (string, number, boolean) ---
-            if (typeof data !== "object") {
-                if (typeof data === "string") {
-                    const isCopiable = fieldsToStyle.includes(currentPath);
-
-                    // --- INICIO DEL CÓDIGO DE DEPURACIÓN ---
-                    // Imprimirá en la consola cada ruta de string que encuentre
-                    console.log(
-                        `Path: '${currentPath}', Es Copiable: ${isCopiable}`,
-                    );
-                    // --- FIN DEL CÓDIGO DE DEPURACIÓN ---
-
-                    const isPdfLink = currentPath === this.RESUME_PDF_PATH;
-                    if (isPdfLink) {
-                        return `<span class="string"><a href="${data}" target="_blank" rel="noopener noreferrer" class="json-pdf-link">${JSON.stringify(data)}</a></span>`;
-                    }
-                    if (isCopiable) {
-                        return `<span class="string"><span class="json-copyable-field" data-copy-text="${data}">${JSON.stringify(data)}</span></span>`;
-                    }
-                    return `<span class="string">${JSON.stringify(data)}</span>`;
-                }
-                if (typeof data === "number")
-                    return `<span class="number">${data}</span>`;
-                if (typeof data === "boolean")
-                    return `<span class="boolean">${data}</span>`;
-                return "";
+            if (data === null) {
+                return `<span class="null">null</span>`;
             }
 
-            // --- Lógica para Arrays ---
             if (Array.isArray(data)) {
-                let arrHtml = "[\n";
-                arrHtml += data
-                    .map((item, i) => {
-                        const itemPath = `${currentPath}[${i}]`;
-                        return `${" ".repeat((indentLevel + 1) * 4)}${this.highlightAndFoldJson(item, fieldsToStyle, itemPath, indentLevel + 1)}`;
-                    })
-                    .join(",\n");
-                arrHtml += `\n${indent}]`;
-                return arrHtml;
+                // Filtra los elementos undefined/null al principio para asegurar que solo procesas elementos válidos
+                const filteredData = data.filter(
+                    (item) => item !== undefined && item !== null,
+                );
+
+                const config = this.SHOW_MORE_CONFIG[currentPath];
+                const isExpanded = this.expandedSections[currentPath] || false;
+
+                // Usa la longitud de los datos filtrados para displayLimit
+                const actualDisplayLimit =
+                    config && !isExpanded && config.limit < filteredData.length
+                        ? config.limit
+                        : filteredData.length;
+
+                const remainingItems = filteredData.length - actualDisplayLimit;
+
+                let html = "";
+                if (currentPath && filteredData.length > 0) {
+                    html += `<span class="json-foldable-toggle">▾</span>`;
+                }
+                html += `<span class="json-bracket">[</span>\n<span class="json-folded-content">`;
+
+                for (let i = 0; i < actualDisplayLimit; i++) {
+                    const item = filteredData[i]; // Itera sobre los datos filtrados
+                    const itemPath = `${currentPath}[${i}]`; // La ruta del path aún puede basarse en el índice original si es relevante
+
+                    html += `${" ".repeat((indentLevel + 1) * 4)}${this.highlightAndFoldJson(item, fieldsToStyle, itemPath, indentLevel + 1)}`;
+
+                    // Añadir coma solo si NO es el último elemento visible y real
+                    if (i < actualDisplayLimit - 1) {
+                        html += ",\n";
+                    } else if (config && remainingItems > 0 && !isExpanded) {
+                        // Caso especial: si es el último elemento visible y habrá un botón "show more"
+                        html += ",\n";
+                    } else {
+                        html += "\n";
+                    }
+                }
+                html += `</span>`;
+
+                if (config && filteredData.length > config.limit) {
+                    // Usa filteredData.length aquí también
+                    const buttonText = isExpanded ? "[-]" : "[+]";
+                    const buttonLineIndent = " ".repeat((indentLevel + 1) * 4);
+                    if (!isExpanded) {
+                        html += `${buttonLineIndent}<span class="json-comment-line">${this.strings.moreItems.replace("%s", remainingItems)}</span>\n`;
+                    }
+                    html += `${buttonLineIndent}<button class="show-more-button" data-path="${currentPath}">${buttonText}</button>\n`;
+                }
+
+                html += `${indent}<span class="json-bracket">]</span>`;
+                return html;
             }
 
-            // --- Lógica para Objetos ---
-            let objHtml = "{\n";
-            objHtml += Object.keys(data)
-                .map((key) => {
+            if (typeof data === "object") {
+                const keys = Object.keys(data);
+                let html = "";
+                if (keys.length > 0) {
+                    html += `<span class="json-foldable-toggle">▾</span>`;
+                }
+                html += `<span class="json-bracket">{</span>\n<span class="json-folded-content">`;
+
+                keys.forEach((key, index) => {
+                    const value = data[key];
                     const keyPath = currentPath ? `${currentPath}.${key}` : key;
-                    const valueHtml = this.highlightAndFoldJson(
-                        data[key],
-                        fieldsToStyle,
-                        keyPath,
-                        indentLevel + 1,
-                    );
-                    return `${" ".repeat((indentLevel + 1) * 4)}<span class="key">"${key}"</span>: ${valueHtml}`;
-                })
-                .join(",\n");
-            objHtml += `\n${indent}}`;
-            return objHtml;
+                    html += `${" ".repeat((indentLevel + 1) * 4)}<span class="key">"${key}"</span>: ${this.highlightAndFoldJson(value, fieldsToStyle, keyPath, indentLevel + 1)}`;
+                    if (index < keys.length - 1) {
+                        html += ",\n";
+                    }
+                });
+
+                html += `\n</span>${indent}<span class="json-bracket">}</span>`;
+                return html;
+            }
+
+            // Para tipos primitivos
+            if (typeof data === "string") {
+                const isCopiable = fieldsToStyle.includes(currentPath);
+                const isPdfLink = currentPath === this.RESUME_PDF_PATH;
+                if (isPdfLink) {
+                    return `<span class="string"><a href="${data}" target="_blank" rel="noopener noreferrer" class="json-pdf-link">${JSON.stringify(data)}</a></span>`;
+                }
+                if (isCopiable) {
+                    return `<span class="string"><span class="json-copyable-field" data-copy-text="${data}">${JSON.stringify(data)}</span></span>`;
+                }
+                return `<span class="string">${JSON.stringify(data)}</span>`;
+            }
+            if (typeof data === "number")
+                return `<span class="number">${data}</span>`;
+            if (typeof data === "boolean")
+                return `<span class="boolean">${data}</span>`;
+
+            return "";
+        }
+
+        handleTabClick(event) {
+            // Get the clicked tab button from the event
+            const clickedTab = event.currentTarget;
+            const targetTabId = clickedTab.dataset.tab + "-content";
+
+            // Deactivate all tabs
+            this.tabButtons.forEach((tab) => {
+                tab.classList.remove("active");
+                tab.setAttribute("aria-selected", "false");
+            });
+
+            // Activate the clicked tab
+            clickedTab.classList.add("active");
+            clickedTab.setAttribute("aria-selected", "true");
+
+            // Hide all tab contents
+            this.tabContents.forEach((content) => {
+                content.style.display = "none";
+                content.setAttribute("aria-hidden", "true"); // Add for accessibility
+            });
+
+            // Show the target tab content
+            const activeContent = document.getElementById(targetTabId);
+            if (activeContent) {
+                activeContent.style.display = "block";
+                activeContent.setAttribute("aria-hidden", "false"); // Add for accessibility
+            }
         }
 
         handleFoldToggle(event) {
@@ -354,5 +595,11 @@ const clientStrings = {
         }
     }
 
-    new EndpointViewer(dataToShow, clientStrings, isHomePage);
+    new EndpointViewer(
+        dataToShow,
+        clientStrings,
+        isHomePage,
+        copyableFields,
+        showMoreConfig,
+    );
 </script>

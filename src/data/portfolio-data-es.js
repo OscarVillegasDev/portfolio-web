@@ -13,20 +13,21 @@ export const PORTFOLIO_DATA = {
                 "email": "oscarnickvillegas@gmail.com",
                 "phone": "+52 7712620593",
                 "location": {
-                    "country": "Mexico",
+                    "country": "México",
                     "state": "Hidalgo",
                     "city": "Pachuca"
                 },
-                "linkedIn": "https://www.linkedin.com/in/dev-oscar-villegas/",
+                "linkedin": "https://www.linkedin.com/in/dev-oscar-villegas/",
                 "cvPdf": "/pdf/VillegasOscar-es-cv25.pdf"
             },
-            "summary": "Desarrollador de APIs adaptable con sólida experiencia en la metodología Agile Scrum, entregando soluciones API escalables y de alta calidad. Experto en el diseño e implementación de APIs eficientes utilizando diversos lenguajes de programación [ej., Node.js, Python, OpenAPI] y plataformas cloud [ej., Apigee, AWS, GCP]. Comprometido con impulsar la innovación y optimizar la eficiencia de los sistemas para alcanzar objetivos clave de negocio.",
+            "summary": "Desarrollador de APIs adaptable con sólida experiencia en la metodología Agile Scrum, entregando soluciones API escalables y de alta calidad. Experto en el diseño e implementación de APIs eficientes utilizando diversos lenguajes de programación [ej., Node.js, Python, OpenAPI] y plataformas cloud [ej. AWS, GCP]. Comprometido con impulsar la innovación y optimizar la eficiencia de los sistemas para alcanzar objetivos clave de negocio."
+        },
+        {
             "experience": [
                 {
                     "id": 0,
                     "title": "Desarrollador Apigee",
                     "company": "Infosys/Loreal",
-                    "location": "MX",
                     "years": "Marzo 2024 - Presente",
                     "description": [
                         "Desarrollador Apigee experimentado y especializado en la gestión integral del ciclo de vida de APIs. Con destreza, diseñé, desplegué y administré proxies de API, implementando políticas de seguridad robustas (OAuth, API Key) y optimizando el tráfico dentro del ecosistema Apigee. Hábil en la resolución de problemas complejos de la plataforma, el análisis de logs de API y la implementación de manejo avanzado de errores para mejorar el rendimiento, la escalabilidad y la fiabilidad de las APIs. Colaboré eficazmente con equipos de desarrollo internacionales."
@@ -36,7 +37,6 @@ export const PORTFOLIO_DATA = {
                     "id": 1,
                     "title": "Desarrollador de API",
                     "company": "Grupo Salinas",
-                    "location": "MX",
                     "years": "Abril 2021 - Marzo 2024",
                     "description": [
                         "Desarrollador API con amplia experiencia en el diseño y desarrollo de APIs bajo la metodología Contract First. Configuré el gateway Apigee Edge, aplicando las mejores prácticas en gestión de seguridad y políticas, incluyendo la implementación de políticas de seguridad robustas. Lideré pruebas exhaustivas manuales y automatizadas para asegurar una calidad de software excepcional. Colaboré interfuncionalmente con equipos de desarrollo e infraestructura para agilizar la resolución de problemas y optimizar la entrega de soluciones en un entorno ágil."
@@ -46,34 +46,38 @@ export const PORTFOLIO_DATA = {
                     "id": 2,
                     "title": "Desarrollador fullstack",
                     "company": "Softmotion",
-                    "location": "MX",
                     "years": "Marzo 2018 - Abril 2021",
                     "description": [
                         "Desarrollador de Software versátil con amplia experiencia abarcando el desarrollo full-stack, la administración de bases de datos y el análisis de negocio. Con dominio en la arquitectura e implementación de plataformas web robustas e integraciones de API utilizando PHP, ASP.NET y frameworks JavaScript modernos (AngularJS, ReactJS, VueJS). Desplegué con éxito soluciones CRM y aproveché importantes servicios cloud (GCP, AWS, Azure). Hábil en la gestión de proyectos con metodologías Ágiles (Scrum, Kanban) y en la colaboración interfuncional para entregar soluciones de software eficientes y de alta calidad. Comprometido con el aprendizaje continuo y la optimización técnica."
                     ]
                 }
-            ],
-            "skills": [
-                "API Design",
-                "Agile",
-                "Software engineering",
-                "RESTful APIs",
-                "Microservices",
-                "Cloud Computing (AWS, GCP, Azure)",
-                "CI/CD",
-                "Git",
-                "JavaScript",
-                "Node.js",
-                "Python",
-                "Java",
-                "PHP",
-                "SQL",
-                "NoSQL",
-                "Scrum",
-                "Kanban",
-                "Problem Solving",
-                "Teamwork"
-            ],
+            ]
+        },
+        {
+            "projects": [
+                {
+                    "id": 0,
+                    "tittle": "Portafolio Web",
+                    "decription": "Portafolio web profesional diseñado para mostrar mis habilidades y proyectos. También incluye una peticion simulada para consultar los datos.",
+                    "techStack": [
+                        "Astro",
+                        "CSS"
+                    ],
+                    "status": "Deployed"
+                },
+                {
+                    "id": 1,
+                    "tittle": "Apigee Tasks",
+                    "decription": "Herramienta para generar documentación de APIs en openAPI 3.0 y preparar las peticiones para crear la API proxy, actualizar/consultar KVM y promover la API proxy en apigee.",
+                    "techStack": [
+                        "nodejs"
+                    ],
+                    "status": "Testing",
+                    "highlights": "img-inprogress"
+                }
+            ]
+        },
+        {
             "education": [
                 {
                     "id": 0,
@@ -81,7 +85,9 @@ export const PORTFOLIO_DATA = {
                     "degree": "Licenciado en Ciencias Computacionales",
                     "years": "2016 - 2021"
                 }
-            ],
+            ]
+        },
+        {
             "certifications": [
                 "Management 3.0",
                 "Scrum Fundamentals",

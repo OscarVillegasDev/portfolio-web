@@ -14,11 +14,18 @@ const response = {
         details: 
             personalData
     };
+const fieldsToCopy = [
+    "details.personalInfo.fullName",
+    "details.personalInfo.email",
+    "details.personalInfo.phone",
+    "details.personalInfo.linkedin"
+];
 ---
 <BaseLayout>
     <EndpointView 
         endpointTitle="Personal-Data" 
         dataToShow={response} 
         isHomePage={true}
+        copyableFields={fieldsToCopy}
     />
 </BaseLayout>

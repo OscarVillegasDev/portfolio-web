@@ -17,16 +17,17 @@ export const PORTFOLIO_DATA = {
                     "state": "Hidalgo",
                     "city": "Pachuca"
                 },
-                "linkedIn": "https://www.linkedin.com/in/dev-oscar-villegas/",
+                "linkedin": "https://www.linkedin.com/in/dev-oscar-villegas/",
                 "cvPdf": "/pdf/VillegasOscar-en-cv25.pdf"
             },
-            "summary": "Highly adaptable API Developer with a robust background in Agile Scrum methodology, consistently delivering high-quality and scalable API solutions. Proficient in designing and implementing performant APIs across diverse programming languages [e.g., Node.js, Python, OpenAPI] and cloud platforms [e.g., Apigee, AWS, GCP]. Committed to driving innovation and optimizing system efficiency to achieve key business objectives.",
+            "summary": "Highly adaptable API Developer with a robust background in Agile Scrum methodology, consistently delivering high-quality and scalable API solutions. Proficient in designing and implementing performant APIs across diverse programming languages [e.g., Node.js, Python, OpenAPI] and cloud platforms [e.g., AWS, GCP]. Committed to driving innovation and optimizing system efficiency to achieve key business objectives."
+        },
+        {
             "experience": [
                 {
                     "id": 0,
                     "title": "Apigee developer",
                     "company": "Infosys/Loreal",
-                    "location": "MX",
                     "years": "March 2024 - Present",
                     "description": [
                         "API Developer with extensive experience in API design and development. Expertly configured Apigee Edge gateway, applying best practices in security and policy management, including robust security policy implementation. Spearheaded comprehensive manual and automated testing to ensure exceptional software quality. Collaborated cross-functionally to troubleshoot issues and optimize solution delivery in an agile environment."
@@ -36,7 +37,6 @@ export const PORTFOLIO_DATA = {
                     "id": 1,
                     "title": "API developer",
                     "company": "Grupo Salinas",
-                    "location": "MX",
                     "years": "April 2021 - March 2024",
                     "description": [
                         "Experience in developing and designing APIs using the Contract First methodology. Proficient in performing stress testing and configuring Apigee Edge gateway, applying best practices in security and policy management. Competent in implementing security policies to protect APIs. Experienced in manual and automated testing to ensure software quality. Collaborative teamwork with other developers and infrastructure specialists to troubleshoot and optimize solution delivery. Ability to learn and adapt to new technologies and tools in an agile environment."
@@ -46,34 +46,38 @@ export const PORTFOLIO_DATA = {
                     "id": 2,
                     "title": "Fullstack developer",
                     "company": "Softmotion",
-                    "location": "MX",
                     "years": "March 2018 - April 2021",
                     "description": [
                         "Versatile Software Developer with extensive experience spanning full-stack development, database administration, and business analysis. Proficient in architecting and implementing robust web platforms and API integrations using PHP, ASP.NET, and modern JavaScript frameworks (AngularJS, ReactJS, VueJS). Successfully deployed CRM solutions and leveraged major cloud services (GCP, AWS, Azure). Adept at managing projects with Agile methodologies (Scrum, Kanban) and collaborating cross-functionally to deliver efficient, high-quality software solutions. Committed to continuous learning and technical optimization."
                     ]
                 }
-            ],
-            "skills": [
-                "API Design",
-                "Agile",
-                "Software engineering",
-                "RESTful APIs",
-                "Microservices",
-                "Cloud Computing (AWS, GCP, Azure)",
-                "CI/CD",
-                "Git",
-                "JavaScript",
-                "Node.js",
-                "Python",
-                "Java",
-                "PHP",
-                "SQL",
-                "NoSQL",
-                "Scrum",
-                "Kanban",
-                "Problem Solving",
-                "Teamwork"
-            ],
+            ]
+        },
+        {
+            "projects": [
+                {
+                    "id": 0,
+                    "tittle": "Portfolio Web",
+                    "decription": "Professional web portfolio designed to showcase my skills and projects. It also includes a simulated API request for data querying.",
+                    "techStack": [
+                        "Astro",
+                        "CSS"
+                    ],
+                    "status": "Deployed"
+                },
+                {
+                    "id": 1,
+                    "tittle": "Apigee Tasks",
+                    "decription": "Tool for generating OpenAPI 3.0 API documentation and preparing requests to create API proxies, update/query KVMs, and promote API proxies in Apigee.",
+                    "techStack": [
+                        "nodejs"
+                    ],
+                    "status": "Testing",
+                    "highlights": "img-inprogress"
+                }
+            ]
+        },
+        {
             "education": [
                 {
                     "id": 0,
@@ -81,7 +85,9 @@ export const PORTFOLIO_DATA = {
                     "degree": "Bachelor's degree in Computer Science",
                     "years": "2016 - 2021"
                 }
-            ],
+            ]
+        },
+        {
             "certifications": [
                 "Management 3.0",
                 "Scrum Fundamentals",
