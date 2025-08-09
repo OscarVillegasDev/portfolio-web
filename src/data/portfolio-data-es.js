@@ -7,9 +7,11 @@ export const PORTFOLIO_DATA = {
     "message": "ok",
     "details": [
         {
+            "summary": "Desarrollador full-stack apasionado por la tecnología, con habilidades probadas en el desarrollo de aplicaciones completas, desde el diseño de la interfaz de usuario hasta la lógica del servidor y la gestión de bases de datos. Tengo un profundo interés en el aprendizaje continuo y en compartir mis conocimientos, lo que me permite adaptarme a nuevos retos. Mi experiencia incluye el diseño e implementación de APIs robustas utilizando tecnologías como Apigee, Python, OpenAPI. Con un enfoque en la metodología Agile Scrum, estoy comprometido a entregar soluciones innovadoras que superen las expectativas.",
+            "cvPdf": "/pdf/VillegasOscar-es-cv25.pdf",
             "personalInfo": {
-                "fullName": "Oscar Eduardo Villegas Martinez",
-                "title": "Desarrollador de APIs",
+                "fullName": "Oscar Villegas",
+                "title": "Desarrollador de API",
                 "email": "oscarnickvillegas@gmail.com",
                 "phone": "+52 7712620593",
                 "location": {
@@ -18,9 +20,16 @@ export const PORTFOLIO_DATA = {
                     "city": "Pachuca"
                 },
                 "linkedin": "https://www.linkedin.com/in/dev-oscar-villegas/",
-                "cvPdf": "/pdf/VillegasOscar-es-cv25.pdf"
-            },
-            "summary": "Desarrollador de APIs adaptable con sólida experiencia en la metodología Agile Scrum, entregando soluciones API escalables y de alta calidad. Experto en el diseño e implementación de APIs eficientes utilizando diversos lenguajes de programación [ej., Node.js, Python, OpenAPI] y plataformas cloud [ej. AWS, GCP]. Comprometido con impulsar la innovación y optimizar la eficiencia de los sistemas para alcanzar objetivos clave de negocio."
+                "education": {
+                    "institution": "Universidad Autónoma del Estado de Hidalgo",
+                    "degree": "Licenciado en Ciencias Computacionales",
+                    "years": "2016 - 2020"
+                },
+                "languages": {
+                    "english": "Intermediate B2",
+                    "spanish": "Nativo"
+                }
+            }
         },
         {
             "experience": [
@@ -74,16 +83,6 @@ export const PORTFOLIO_DATA = {
                     ],
                     "status": "Testing",
                     "highlights": "img-inprogress"
-                }
-            ]
-        },
-        {
-            "education": [
-                {
-                    "id": 0,
-                    "institution": "Universidad Autónoma del Estado de Hidalgo",
-                    "degree": "Licenciado en Ciencias Computacionales",
-                    "years": "2016 - 2021"
                 }
             ]
         },
