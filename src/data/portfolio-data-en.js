@@ -7,8 +7,10 @@ export const PORTFOLIO_DATA = {
     "message": "ok",
     "details": [
         {
+            "summary": "Passionate full-stack developer with a proven track record in building end-to-end applications, from user interface design to server-side logic and database management. I have a deep interest in continuous learning and sharing knowledge, which allows me to adapt to new challenges. My experience includes designing and implementing robust APIs using technologies such as Apigee, Python, OpenAPI. With a focus on the Agile Scrum methodology, I'm committed to delivering innovative solutions that exceed expectations.",
+            "cvPdf": "/pdf/VillegasOscar-en-cv25.pdf",
             "personalInfo": {
-                "fullName": "Oscar Eduardo Villegas Martinez",
+                "fullName": "Oscar Villegas",
                 "title": "API Developer",
                 "email": "oscarnickvillegas@gmail.com",
                 "phone": "+52 7712620593",
@@ -18,9 +20,16 @@ export const PORTFOLIO_DATA = {
                     "city": "Pachuca"
                 },
                 "linkedin": "https://www.linkedin.com/in/dev-oscar-villegas/",
-                "cvPdf": "/pdf/VillegasOscar-en-cv25.pdf"
-            },
-            "summary": "Highly adaptable API Developer with a robust background in Agile Scrum methodology, consistently delivering high-quality and scalable API solutions. Proficient in designing and implementing performant APIs across diverse programming languages [e.g., Node.js, Python, OpenAPI] and cloud platforms [e.g., AWS, GCP]. Committed to driving innovation and optimizing system efficiency to achieve key business objectives."
+                "education": {
+                    "institution": "Autonomous University Of the State of Hidalgo",
+                    "degree": "Bachelor's degree in Computer Science",
+                    "years": "2016 - 2020"
+                },
+                "languages": {
+                    "english": "Intermediate B2",
+                    "spanish": "Native"
+                }
+            }
         },
         {
             "experience": [
@@ -74,16 +83,6 @@ export const PORTFOLIO_DATA = {
                     ],
                     "status": "Testing",
                     "highlights": "img-inprogress"
-                }
-            ]
-        },
-        {
-            "education": [
-                {
-                    "id": 0,
-                    "institution": "Autonomous University Of the State of Hidalgo",
-                    "degree": "Bachelor's degree in Computer Science",
-                    "years": "2016 - 2021"
                 }
             ]
         },
