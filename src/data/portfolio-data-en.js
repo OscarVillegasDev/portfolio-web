@@ -66,25 +66,113 @@ export const PORTFOLIO_DATA = {
             "projects": [
                 {
                     "id": 0,
-                    "tittle": "Portfolio Web",
-                    "decription": "Professional web portfolio designed to showcase my skills and projects. It also includes a simulated API request for data querying.",
-                    "techStack": [
-                        "Astro",
-                        "CSS"
-                    ],
-                    "status": "Deployed"
-                },
-                {
-                    "id": 1,
-                    "tittle": "Apigee Tasks",
-                    "decription": "Tool for generating OpenAPI 3.0 API documentation and preparing requests to create API proxies, update/query KVMs, and promote API proxies in Apigee.",
+                    "tittle": "Automated Tasks",
+                    "decription": "A tool to generate API documentation in OpenAPI 3.0 and prepare requests to create the API proxy, update/query KVM, and promote the API proxy in Apigee.",
                     "techStack": [
                         "nodejs"
                     ],
                     "status": "Testing",
-                    "highlights": "img-inprogress"
+                    "highlights": [
+                        "/img/api-dev-tool/inicio.png",
+                        "/img/api-dev-tool/final.png",
+                        "/img/api-dev-tool/files.png"
+                    ]
+                },
+                {
+                    "id": 1,
+                    "tittle": "Feedback Wrap",
+                    "decription": "An Android application that offers a Management 3.0 technique to provide constructive feedback based on facts, not judgments. The goal is continuous improvement, motivation, and the creation of quality relationships.",
+                    "techStack": [
+                        "nodejs"
+                    ],
+                    "status": "In production",
+                    "highlights": [
+                        "/img/feedback-wrap/registro.png",
+                        "/img/feedback-wrap/login.png",
+                        "/img/feedback-wrap/menu.png",
+                        "/img/feedback-wrap/proceso.png",
+                        "/img/feedback-wrap/proceso1.png",
+                        "/img/feedback-wrap/proceso2.png",
+                        "/img/feedback-wrap/proceso3.png",
+                        "/img/feedback-wrap/proceso4.png",
+                        "/img/feedback-wrap/proceso5.png",
+                        "/img/feedback-wrap/proceso6.png",
+                        "/img/feedback-wrap/proceso7.png",
+                        "/img/feedback-wrap/proceso8.png",
+                        "/img/feedback-wrap/proceso9.png"
+                    ]
+                },
+                {
+                    "id": 2,
+                    "tittle": "Visitor System",
+                    "decription": "A web system that manages visitors to a location. It registers/updates visitors and registers/updates/lists each visitor's visits. It also includes user management for Administrators.",
+                    "techStack": [
+                        "php",
+                        "html",
+                        "javascript"
+                    ],
+                    "status": "In production",
+                    "highlights": [
+                        "/img/sistema-visitas-P/login.png",
+                        "/img/sistema-visitas-P/menu.png",
+                        "/img/sistema-visitas-P/registro.png",
+                        "/img/sistema-visitas-P/registroVisita.png",
+                        "/img/sistema-visitas-P/administrador-page.png"
+                    ]
+                },
+                {
+                    "id": 3,
+                    "tittle": "Christmas Event",
+                    "decription": "A static website that displays a countdown to Christmas day, followed by holiday greetings and a demo of a Christmas-themed video game.",
+                    "techStack": [
+                        "html",
+                        "javascript"
+                    ],
+                    "status": "In production",
+                    "highlights": [
+                        "/img/navidad/readme.png",
+                        "/img/navidad/inicio.png",
+                        "/img/navidad/presentacion.png",
+                        "/img/navidad/game.png"
+                    ]
+                },
+                {
+                    "id": 4,
+                    "tittle": "Vallz Video Game",
+                    "decription": "A video game for Android phones where you have to control a ball with your gyroscope sensor to reach a goal by passing different types of levels.",
+                    "techStack": [
+                        "unity",
+                        "c#"
+                    ],
+                    "status": "Pre-production",
+                    "highlights": [
+                        "/img/vallz/menu.png",
+                        "/img/vallz/skins.png",
+                        "/img/vallz/niveles.png",
+                        "/img/vallz/gameplay.png",
+                        "/img/vallz/gameover.png"
+                    ]
+                },
+                {
+                    "id": 5,
+                    "tittle": "Valentine's Day Event",
+                    "decription": "A static website that celebrates Valentine's Day in a unique way, featuring an animation of yellow flowers growing at the end.",
+                    "techStack": [
+                        "html",
+                        "javascript"
+                    ],
+                    "status": "In production",
+                    "highlights": [
+                        "/img/valentin/inicio.png",
+                        "/img/valentin/opcionNo.png",
+                        "/img/valentin/opcionNo2.png",
+                        "/img/valentin/opcionNo3.png",
+                        "/img/valentin/opcionSi.png",
+                        "/img/valentin/flores.png"
+                    ]
                 }
             ]
+
         },
         {
             "certifications": [
@@ -96,7 +184,7 @@ export const PORTFOLIO_DATA = {
             ],
             "courses": [
                 {
-                    "gcp":[
+                    "gcp": [
                         "API Design and Fundamentals of Google Cloud's Apigee API Platform",
                         "API Security on Google Cloud's Apigee API Platform",
                         "API Development on Google Cloud's Apigee API",
@@ -104,7 +192,7 @@ export const PORTFOLIO_DATA = {
                     ]
                 },
                 {
-                    "aws":[
+                    "aws": [
                         "AWS Cloud Practitioner Essentials Day",
                         "Security Engineering on AWS Jam",
                         "MLOps Engineering on AWS",
@@ -113,7 +201,7 @@ export const PORTFOLIO_DATA = {
                     ]
                 },
                 {
-                    "platziCourses":[
+                    "platziCourses": [
                         "Curso de Docker: Fundamentos",
                         "Curso de React.js",
                         "Curso de Django",

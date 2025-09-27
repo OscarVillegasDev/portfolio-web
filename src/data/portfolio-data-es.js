@@ -66,23 +66,110 @@ export const PORTFOLIO_DATA = {
             "projects": [
                 {
                     "id": 0,
-                    "tittle": "Portafolio Web",
-                    "decription": "Portafolio web profesional diseñado para mostrar mis habilidades y proyectos. También incluye una peticion simulada para consultar los datos.",
-                    "techStack": [
-                        "Astro",
-                        "CSS"
-                    ],
-                    "status": "Deployed"
-                },
-                {
-                    "id": 1,
-                    "tittle": "Apigee Tasks",
+                    "tittle": "Tareas Automatizadas",
                     "decription": "Herramienta para generar documentación de APIs en openAPI 3.0 y preparar las peticiones para crear la API proxy, actualizar/consultar KVM y promover la API proxy en apigee.",
                     "techStack": [
                         "nodejs"
                     ],
-                    "status": "Testing",
-                    "highlights": "img-inprogress"
+                    "status": "En pruebas",
+                    "highlights": [
+                        "/img/api-dev-tool/inicio.png",
+                        "/img/api-dev-tool/final.png",
+                        "/img/api-dev-tool/files.png"
+                    ]
+                },
+                {
+                    "id": 1,
+                    "tittle": "feedback wrap",
+                    "decription": "Aplicación android que ofrece una tecnica de management 3.0 para proporcionar una retroalimentacion constructiva, basada en hechos y no en juicios. Con el motivo de la mejora continua, la motivación y la creación de relaciones de calidad.",
+                    "techStack": [
+                        "nodejs"
+                    ],
+                    "status": "En producción",
+                    "highlights": [
+                        "/img/feedback-wrap/registro.png",
+                        "/img/feedback-wrap/login.png",
+                        "/img/feedback-wrap/menu.png",
+                        "/img/feedback-wrap/proceso.png",
+                        "/img/feedback-wrap/proceso1.png",
+                        "/img/feedback-wrap/proceso2.png",
+                        "/img/feedback-wrap/proceso3.png",
+                        "/img/feedback-wrap/proceso4.png",
+                        "/img/feedback-wrap/proceso5.png",
+                        "/img/feedback-wrap/proceso6.png",
+                        "/img/feedback-wrap/proceso7.png",
+                        "/img/feedback-wrap/proceso8.png",
+                        "/img/feedback-wrap/proceso9.png"
+                    ]
+                },
+                {
+                    "id": 2,
+                    "tittle": "Sistema Visitas",
+                    "decription": "Sistema web en el que gestiona las visitas de un lugar. Registra/Actualiza Visitantes, Registra/Actualiza/En lista las visitas de cada visitante. También contiene la gestión de los usuarios como Administrador.",
+                    "techStack": [
+                        "php",
+                        "html",
+                        "javascript"
+                    ],
+                    "status": "En producción",
+                    "highlights": [
+                        "/img/sistema-visitas-P/login.png",
+                        "/img/sistema-visitas-P/menu.png",
+                        "/img/sistema-visitas-P/registro.png",
+                        "/img/sistema-visitas-P/registroVisita.png",
+                        "/img/sistema-visitas-P/administrador-page.png",
+                    ]
+                },
+                {
+                    "id": 3,
+                    "tittle": "Evento Navidad",
+                    "decription": "Página web estática que muestra la cuenta regresiva para el día de navidad para después mostrar felicitaciones y una muestra de videojuego por navidad.",
+                    "techStack": [
+                        "html",
+                        "javascript"
+                    ],
+                    "status": "En producción",
+                    "highlights": [
+                        "/img/navidad/readme.png",
+                        "/img/navidad/inicio.png",
+                        "/img/navidad/presentacion.png",
+                        "/img/navidad/game.png",
+                    ]
+                },
+                {
+                    "id": 4,
+                    "tittle": "Videojuego Vallz",
+                    "decription": "Videojuego para celulares android donde tienes que controlar una pelota con tu sensor giroscopio para llegar a una meta pasando diferentes tipos de niveles.",
+                    "techStack": [
+                        "unity",
+                        "c#"
+                    ],
+                    "status": "Pre-producción",
+                    "highlights": [
+                        "/img/vallz/menu.png",
+                        "/img/vallz/skins.png",
+                        "/img/vallz/niveles.png",
+                        "/img/vallz/gameplay.png",
+                        "/img/vallz/gameover.png"
+                    ]
+                },
+                {
+                    "id": 5,
+                    "tittle": "Evento San Valentin",
+                    "decription": "Página web estática que se trata de felicitar en San Valentin de una manera peculiar y mostrando una animación de crecimiento de flores amarillas al final.",
+                    "techStack": [
+                        "html",
+                        "javascript"
+                    ],
+                    "status": "En producción",
+                    "highlights": [
+                        "/img/valentin/inicio.png",
+                        "/img/valentin/opcionNo.png",
+                        "/img/valentin/opcionNo2.png",
+                        "/img/valentin/opcionNo3.png",
+                        "/img/valentin/opcionSi.png",
+                        "/img/valentin/flores.png",
+                    ]
                 }
             ]
         },

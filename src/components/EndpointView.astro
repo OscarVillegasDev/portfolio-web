@@ -197,6 +197,15 @@ const clientStrings = {
 
 <div id="copy-message" class="copy-message"></div>
 
+<div id="image-reel-modal" class="image-reel-modal" style="display: none;">
+    <span id="close-reel" class="close-reel">&times;</span>
+    <div class="reel-content">
+        <img id="reel-image" src="" alt="Project image" />
+        <a id="prev-reel" class="prev-reel">&#10094;</a>
+        <a id="next-reel" class="next-reel">&#10095;</a>
+    </div>
+</div>
+
 <script
     define:vars={{
         dataToShow,
@@ -237,6 +246,18 @@ const clientStrings = {
             this.tabContents = document.querySelectorAll(".tab-content");
             this.selectVerb = document.getElementById("method-select");
 
+            // Image Reel elements
+            this.imageReelModal = document.getElementById("image-reel-modal");
+            this.reelImage = document.getElementById("reel-image");
+            this.closeReelButton = document.getElementById("close-reel");
+            this.prevReelButton = document.getElementById("prev-reel");
+            this.nextReelButton = document.getElementById("next-reel");
+            this.reelImages = [];
+            this.currentReelIndex = 0;
+            this.reelInterval = null;
+            this.touchStartX = 0;
+            this.touchEndX = 0;
+
             this.DATA_404 = DATA_404;
             this.driverObj = null;
 
@@ -258,6 +279,26 @@ const clientStrings = {
                 link.addEventListener("click", (e) =>
                     this.handleTourLinkClick(e),
                 );
+            });
+
+            // Image Reel listeners
+            this.closeReelButton.addEventListener("click", () => this.closeImageReel());
+            this.imageReelModal.addEventListener("click", (e) => {
+                if (e.target === this.imageReelModal) {
+                    this.closeImageReel();
+                }
+            });
+            this.prevReelButton.addEventListener("click", () => this.showPrevImage());
+            this.nextReelButton.addEventListener("click", () => this.showNextImage());
+
+            const reelContent = this.imageReelModal.querySelector('.reel-content');
+            reelContent.addEventListener('touchstart', (e) => {
+                this.touchStartX = e.changedTouches[0].screenX;
+            }, { passive: true });
+
+            reelContent.addEventListener('touchend', (e) => {
+                this.touchEndX = e.changedTouches[0].screenX;
+                this.handleSwipeGesture();
             });
         }
 
@@ -372,6 +413,14 @@ const clientStrings = {
                         this.handleShowMoreClick(e),
                     ),
                 );
+            
+            this.jsonDisplay
+                .querySelectorAll(".json-highlights-reel")
+                .forEach((el) =>
+                    el.addEventListener("click", (e) =>
+                        this.handleHighlightsClick(e),
+                    ),
+                );
         }
 
         highlightAndFoldJson(
@@ -452,7 +501,14 @@ const clientStrings = {
                 keys.forEach((key, index) => {
                     const value = data[key];
                     const keyPath = currentPath ? `${currentPath}.${key}` : key;
-                    html += `${" ".repeat((indentLevel + 1) * 4)}<span class="key">"${key}"</span>: ${this.highlightAndFoldJson(value, fieldsToStyle, keyPath, indentLevel + 1)}`;
+                    const valueIndent = " ".repeat((indentLevel + 1) * 4);
+
+                    if (key === 'highlights' && Array.isArray(value) && value.length > 0) {
+                        html += `${valueIndent}<span class="key">"${key}"</span>: <span class="json-highlights-reel" data-images='${JSON.stringify(value)}'>[View Images]</span>`;
+                    } else {
+                        html += `${valueIndent}<span class="key">"${key}"</span>: ${this.highlightAndFoldJson(value, fieldsToStyle, keyPath, indentLevel + 1)}`;
+                    }
+                    
                     if (index < keys.length - 1) {
                         html += ",\n";
                     }
@@ -548,6 +604,69 @@ const clientStrings = {
                     1500,
                 );
             });
+        }
+
+        handleHighlightsClick(event) {
+            const images = JSON.parse(event.currentTarget.dataset.images);
+            this.openImageReel(images);
+        }
+
+        openImageReel(images) {
+            this.reelImages = images;
+            this.currentReelIndex = 0;
+            this.updateReelImage();
+            this.imageReelModal.style.display = "flex";
+            document.body.style.overflow = "hidden";
+            this.startReelInterval();
+        }
+
+        closeImageReel() {
+            this.imageReelModal.style.display = "none";
+            document.body.style.overflow = "auto";
+            this.stopReelInterval();
+        }
+
+        updateReelImage() {
+            if (this.reelImages.length > 0) {
+                this.reelImage.src = this.reelImages[this.currentReelIndex];
+            }
+        }
+
+        showNextImage() {
+            if (this.reelImages.length === 0) return;
+            this.currentReelIndex = (this.currentReelIndex + 1) % this.reelImages.length;
+            this.updateReelImage();
+            this.resetReelInterval();
+        }
+
+        showPrevImage() {
+            if (this.reelImages.length === 0) return;
+            this.currentReelIndex = (this.currentReelIndex - 1 + this.reelImages.length) % this.reelImages.length;
+            this.updateReelImage();
+            this.resetReelInterval();
+        }
+
+        startReelInterval() {
+            this.stopReelInterval();
+            this.reelInterval = setInterval(() => this.showNextImage(), 5000);
+        }
+
+        stopReelInterval() {
+            clearInterval(this.reelInterval);
+        }
+
+        resetReelInterval() {
+            this.stopReelInterval();
+            this.startReelInterval();
+        }
+
+        handleSwipeGesture() {
+            if (this.touchEndX < this.touchStartX - 50) { // Swiped left
+                this.showNextImage();
+            }
+            if (this.touchEndX > this.touchStartX + 50) { // Swiped right
+                this.showPrevImage();
+            }
         }
 
         handleTourLinkClick(event) {
@@ -704,3 +823,90 @@ const clientStrings = {
         showMoreConfig,
     );
 </script>
+
+<style>
+/* Styles for the clickable highlights link */
+.json-highlights-reel {
+    color: var(--accent-color);
+    cursor: pointer;
+    text-decoration: underline;
+}
+.json-highlights-reel:hover {
+    color: var(--accent-color-hover);
+}
+
+/* Styles for the Image Reel Modal */
+.image-reel-modal {
+    position: fixed;
+    z-index: 1000;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.85);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    -webkit-backdrop-filter: blur(5px);
+    backdrop-filter: blur(5px);
+}
+
+.reel-content {
+    position: relative;
+    max-width: 90vw;
+    max-height: 85vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+#reel-image {
+    max-width: 100%;
+    max-height: 100%;
+    object-fit: contain;
+    border-radius: 5px;
+    box-shadow: 0 5px 15px rgba(0,0,0,0.3);
+}
+
+.close-reel {
+    position: absolute;
+    top: 15px;
+    right: 35px;
+    color: #f1f1f1;
+    font-size: 40px;
+    font-weight: bold;
+    cursor: pointer;
+    transition: color 0.3s;
+}
+.close-reel:hover {
+    color: #bbb;
+}
+
+.prev-reel, .next-reel {
+    cursor: pointer;
+    position: absolute;
+    top: 50%;
+    width: auto;
+    padding: 16px;
+    margin-top: -25px;
+    color: white;
+    font-weight: bold;
+    font-size: 24px;
+    transition: 0.6s ease;
+    border-radius: 0 3px 3px 0;
+    user-select: none;
+    background-color: rgba(0,0,0,0.3);
+}
+
+.next-reel {
+    right: -50px;
+    border-radius: 3px 0 0 3px;
+}
+.prev-reel {
+    left: -50px;
+}
+
+.reel-content:hover .prev-reel, .reel-content:hover .next-reel {
+    background-color: rgba(0,0,0,0.6);
+}
+</style>
