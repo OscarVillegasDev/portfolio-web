@@ -66,23 +66,29 @@ export const PORTFOLIO_DATA = {
             "projects": [
                 {
                     "id": 0,
-                    "tittle": "Portafolio Web",
-                    "decription": "Portafolio web profesional diseñado para mostrar mis habilidades y proyectos. También incluye una peticion simulada para consultar los datos.",
-                    "techStack": [
-                        "Astro",
-                        "CSS"
-                    ],
-                    "status": "Deployed"
-                },
-                {
-                    "id": 1,
-                    "tittle": "Apigee Tasks",
+                    "tittle": "Tareas Automatizadas",
                     "decription": "Herramienta para generar documentación de APIs en openAPI 3.0 y preparar las peticiones para crear la API proxy, actualizar/consultar KVM y promover la API proxy en apigee.",
                     "techStack": [
                         "nodejs"
                     ],
                     "status": "Testing",
-                    "highlights": "img-inprogress"
+                    "highlights": [
+                        "/img/api-dev-tool/inicio.png",
+                        "/img/api-dev-tool/final.png"
+                    ]
+                },
+                {
+                    "id": 1,
+                    "tittle": "feedback wrap",
+                    "decription": "Aplicación android que ofrece una tecnica de management 3.0 para proporcionar una retroalimentacion constructiva, basada en hechos y no en juicios. Con el motivo de la mejora continua, la motivación y la creación de relaciones de calidad.",
+                    "techStack": [
+                        "nodejs"
+                    ],
+                    "status": "En producción",
+                    "highlights": [
+                        "/img/feedback-wrap/login.png",
+                        "/img/feedback-wrap/menu.png"
+                    ]
                 }
             ]
         },
